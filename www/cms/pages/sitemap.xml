@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+	
+<t:template id="index"><t:setvar name="domain" value="{$_SERVER['HTTP_HOST']}" />&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+<t:select xpath="/db/root/page" sql="SELECT `id`, `link`, `publish_time`, `cash`, `data_only`, `title` FROM `{TABLE_PAGE}` AS A WHERE ISNULL(`parent_id`) AND `data_only`!='childs'" checkversion="A" template="sitemap_list" />
+&lt;/urlset&gt;
+</t:template>
+
+<t:template id="sitemap_list">
+<t:if expr="'{VARS['data_only']}'!='yes' &amp;&amp; !preg_match('/новая запись/ui', '{VARS['title']}')"><t:then><url>
+	<loc>http://<t:var name="domain" /><t:var name="link" /></loc>
+	<t:if expr="'{VARS['cash']}'=='yes'"><t:then><lastmod><t:var name="publish_time" date="Y-m-d" /></lastmod>
+	</t:then><t:else /></t:if>
+</url></t:then><t:else /></t:if><t:select xpath="/db//page[@id='{VARS['id']}']/page" sql="SELECT `id`, `link`, `publish_time`, `cash`, `data_only`, `title` FROM `{TABLE_PAGE}` AS A WHERE `parent_id`='{VARS['id']}' AND `data_only`!='childs'" checkversion="A" template="sitemap_list" />
+</t:template>
+
+</t:templates>

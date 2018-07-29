@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">	
+	<t:parent id="{POST['id']}" template="parid" />
+	<div class="close">закрыть</div>
+	<t:form action="saveAndPublish" parent_id="{POST['id']}">
+		<t:checkform>
+		$mq = mysql_query('SELECT image FROM CmsPage WHERE version=0 AND id=401');
+		$row = mysql_fetch_row($mq);
+		$mq2 = mysql_query('SELECT link, title FROM CmsPage WHERE version=0 AND id='.$_POST['pid']);
+		$row2 = mysql_fetch_row($mq2);
+		$maily = explode(',', $row[0]);
+		//file_put_contents('temp.txt', count($maily));
+		for ($i=0; $i&lt;count($maily); $i++) {
+			MailTo($maily[$i], 'info@{SERVER['HTTP_HOST']}', 'Новый коммент на сайте hoolity.ru',
+			'Автор: '.$_POST['name']."&lt;br/>"
+			.'Коммент: '.$_POST['vopros']."&lt;br/>"
+			.'Ссылка на статью: &lt;a href="http://hoolity.ru'.$row2[0].'">'.$row2[1].'&lt;/a>');
+		}
+		$_SESSION['form'] = NULL;
+		</t:checkform>
+		<t:input type="hidden" name="pid" value="{USER_VARS['parid']}" />
+		<div class="lhot">
+			<div class="alerts">
+				<span class="n0 invbl medium zel">Комментарий публикуется</span>
+				<span class="n2 invbl"><font color="#ff0000">не заполнены обязательные поля!</font><br/></span>
+			</div>
+			Кто комментирует*:	<t:input size="45" name="name" class="req" var_name="title" maxlength="50"/><br />
+			<t:textarea name="vopros" class="req" var_name="content">текст</t:textarea>		
+			<input type="button" class="otpr2" value="отправить" />
+		</div>
+	</t:form>
+<script src="/js/script.js"> </script>
+</t:template>
+
+
+
+<t:template id="parid">	
+	<t:setvar name="parid" value="{VARS['id']}" />
+</t:template>
+
+</t:templates>

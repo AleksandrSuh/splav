@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="externals">
+<t:eval><![CDATA[
+
+if (!empty(VARS['external_class'])) {
+	echo '<optgroup label="Дополнительные ({VARS['external_class']})">';
+	foreach ($GLOBALS['EXTERNAL_CLASS'][VARS['external_class']]['property'] as $property)
+		echo '<option value="external.'.$property['name'].'">'.$property['name'].'</option>';
+	echo '</optgroup>';
+}
+
+]]></t:eval>
+</t:template>
+
+
+
+<t:template id="html">
+<t:first>&lt;table>
+<tr>
+<t:eval><![CDATA[
+USER_VARS['rv'] = explode(',', $GLOBALS['Params']['element']->getAttribute('required_vars'));
+foreach (USER_VARS['rv'] as $v) echo '<th>',$v,'</th>';
+]]></t:eval>
+</tr>
+</t:first>
+<tr>
+<t:eval><![CDATA[
+if (!empty($GLOBALS['Vars']['link']) and !empty($_POST['absolute_link']) and $_POST['absolute_link']=='yes')
+	$GLOBALS['Vars']['link'] = 'http://'.$_SERVER['HTTP_HOST'].$GLOBALS['Vars']['link'];
+foreach (USER_VARS['rv'] as $v) echo '<td>',$GLOBALS['Vars'][$v],'</td>';
+]]></t:eval>
+</tr>
+<t:last>&lt;/table></t:last>
+</t:template>
+
+
+
+<t:template id="xml"><t:first>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;root>
+<t:eval><![CDATA[
+USER_VARS['rv'] = explode(',', $GLOBALS['Params']['element']->getAttribute('required_vars'));
+]]></t:eval></t:first><t:eval><![CDATA[
+if (!empty($GLOBALS['Vars']['link']) and !empty($_POST['absolute_link']) and $_POST['absolute_link']=='yes')
+	$GLOBALS['Vars']['link'] = 'http://'.$_SERVER['HTTP_HOST'].$GLOBALS['Vars']['link'];
+echo '<'.VARS['parent.title'].'>';
+foreach (USER_VARS['rv'] as $v) echo '<',$v,'>',$GLOBALS['Vars'][$v],'</',$v,'>';
+echo '</'.VARS['parent.title'].'>';
+]]></t:eval>
+<t:last>&lt;/root>
+</t:last></t:template>
+
+
+
+<t:template id="csv"><t:first><t:eval><![CDATA[
+USER_VARS['rv'] = explode(',', $GLOBALS['Params']['element']->getAttribute('required_vars'));
+]]></t:eval></t:first><t:eval><![CDATA[
+if (!empty($GLOBALS['Vars']['link']) and !empty($_POST['absolute_link']) and $_POST['absolute_link']=='yes')
+	$GLOBALS['Vars']['link'] = 'http://'.$_SERVER['HTTP_HOST'].$GLOBALS['Vars']['link'];
+$first = true;
+foreach (USER_VARS['rv'] as $v)  {
+	if ($first) $first = false;
+	else echo ';';
+	echo '"',addslashes($GLOBALS['Vars'][$v]),'"';
+}
+echo "\n";
+]]></t:eval></t:template>
+
+</t:templates>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+	
+<t:template id="index">
+	<t:eval><t:statement>
+		if ($_SERVER['QUERY_STRING']=='') USER_VARS['LINK'] = '/';
+		else USER_VARS['LINK'] = $_SERVER['QUERY_STRING'];
+	</t:statement></t:eval>
+	<t:block link="{USER_VARS['LINK']}" template="main" />
+</t:template>
+
+<t:template id="main">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+&lt;html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>Редактирование связок - <t:var name="title" astext="yes" /></title>
+	<link type="text/css" rel="stylesheet" href="/cms/css/cms.css" />
+	<script type="text/javascript" src="/cms/js/ajax.js"> </script>
+	<script type="text/javascript" src="/cms/js/cms.js"> </script>
+	<script type="text/javascript" src="/cms/js/editor.js"> </script>
+	<script type="text/javascript" src="/cms/js/backend.js"> </script>
+</head>
+
+<body style="margin: 10px;">
+
+<div class="topmain">
+	<a href="javascript:bSave()" title="Сохранить" description="сохраняет изменения в текущей записи"><img src="/cms/img/toolicons/save.gif" width="20" height="20" /></a>
+	<a href="javascript:bSave(true)" title="Сохранить и опубликовать" description="последовательно выполняет операции сохранения и публикации для текущей записи"><img src="/cms/img/toolicons/save-and-publish.gif" width="20" height="20" /></a>
+	<br />
+</div>
+
+&lt;input id="v_id" type="hidden" value="<t:var name="id" />" />
+
+<t:block template="assocData@cms/pages/cms/index.xml" />
+
+</body>
+&lt;/html>
+</t:template>
+
+</t:templates>

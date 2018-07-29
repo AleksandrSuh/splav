@@ -1,0 +1,14 @@
+AddDefaultCharset UTF-8
+RewriteEngine on
+RewriteBase /
+RewriteRule ^.htaccess$ - [F]
+RewriteRule ^config.xml$ - [F]
+RewriteRule ^templates/.*\.xml$ - [F]
+RewriteRule ^cms/pages/ - [F]
+
+RewriteCond %{REQUEST_URI} ^/cms/fb/vi$
+RewriteCond %{QUERY_STRING} ^w=(\d*)\*?&h=(\d*)\*?&url=/(.*?)([^/]+)$
+RewriteRule .* /%3_cache/%1x%2/%4 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^.*$ /index.php

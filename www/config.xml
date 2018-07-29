@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config debugMode="false" dbType="mysql" dbHost="localhost" dbUser="root" dbName="bd_hoolity" dbFile=".xml" pathFb="/files" dbVersionsNum="3" defaultText="Текст" timeZone="Asia/Yekaterinburg" cmsLog="false" updateCheckBeta="false" cmsMapLength="50" cmsCache="none" formExpire="24" jpegQuality="85">
+	<external/>
+</config>
+<!--<config debugMode="false" dbType="mysql" dbHost="localhost" dbUser="artgk3_21" dbPass="UXl3WLIG" dbName="artgk3_hoolity" dbFile=".xml" pathFb="/files" dbVersionsNum="3" defaultText="Текст" timeZone="Asia/Yekaterinburg" cmsLog="true" updateCheckBeta="false" cmsMapLength="100" cmsCache="none" formExpire="24" jpegQuality="85">
+	<external/>
+</config>-->
+

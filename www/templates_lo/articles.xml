@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">	 
+<div id="bodyContainer">
+	<t:block template="headblock@root.xml" />
+	<div id="mainBody">
+		<div id="mainContent">
+			<t:if expr="{PARENT_TEMPLATE_SRC_DEEP}==0">
+							<h2><div class="ic_art"><span class="botbord"><t:var name="title" editable="yes" /></span></div></h2>
+							<t:var name="content" editable="yes" />
+							<div class="art_listing">
+								<t:childrens template="list" />
+							</div>
+							 <a href="#zayav" class="zayav" name="regmodal">Добавить свою статью</a>
+				<div id="zayav" class="window"> 
+					<div class="close">закрыть</div>
+				<t:form action="save">
+					<t:checkform>
+					<![CDATA[
+					$mq = mysql_query('SELECT image FROM CmsPage WHERE version=0 AND id=401 AND version=0');
+					$row = mysql_fetch_row($mq);
+					$maily = explode(',', $row[0]);
+					for ($i=0; $i<count($maily); $i++) {
+						MailTo($maily[$i], 'info@{SERVER['HTTP_HOST']}', 'Новая статья на сайте hoolity.ru',
+						'Автор: '.$_POST['avtor'].'<br/>'
+						.'Название: '.$_POST['name'].'<br/>'
+						.'Страница статей: <a href="http://hoolity.ru/stati">http://hoolity.ru/stati</a>');
+					};
+					$_SESSION['form'] = NULL;
+					]]>
+					</t:checkform>
+						<div class="lhot">
+				<div class="alerts">
+					<p class="n0 invbl medium zel">Большое Спасибо, Ваша статья будет в ближайшее время опубликована! (ну после проверки администратором)</p>
+				<p class="n2 invbl"><font color="#ff0000">не заполнены обязательные поля!</font><br/></p>
+				<p class="n4 invbl"><font color="#ff0000">неверный формат e-mail!</font><br/></p></div>
+				Кто автор*:	<t:input size="45" name="avtor" var_name="description" maxlength="50"/><br />
+				Название статьи*:	<t:input size="45" name="name" required="yes" var_name="title" maxlength="50"/><br />
+					<t:textarea required="yes" name="vopros" var_name="content">текст</t:textarea>
+					
+					<input type="button" class="otpr2" value="отправить" />
+					</div>
+				</t:form>
+				</div>
+			</t:if>
+			<t:if expr="{PARENT_TEMPLATE_SRC_DEEP}==1">
+				<h2><div class="ic_art1"><span class="botbord"><t:var name="title" editable="yes" /></span></div></h2>
+				<div class="fr">&lt;a href="<t:var name="parent.link" />">вернуться к списку статей&lt;/a></div>
+				<div class="otst">
+					<t:var name="content" editable="yes" /><BR /><BR /><DIV align="right"><I><STRONG><t:var name="description" editable="yes" /> </STRONG></I><BR /></DIV>
+					<t:if expr="'{VARS['id']}'=='33'">
+					<br /><br />
+						<t:dassoc template="assoc" />
+					</t:if>
+				</div>
+				 <a href="#comm" class="addcomm" name="regmodal">Комментировать</a>
+				 <div class="llear"> </div>
+				 <t:childrens template="comment" orderby="n DESC, create_time" />
+				<div id="comm" class="window"> 
+					<div class="close">закрыть</div>
+					<t:form action="saveAndPublish">
+						<t:checkform>
+						$mq = mysql_query('SELECT image FROM CmsPage WHERE version=0 AND id=401');
+						$row = mysql_fetch_row($mq);
+						$mq2 = mysql_query('SELECT link, title FROM CmsPage WHERE version=0 AND id='.$_POST['parid']);
+						$row2 = mysql_fetch_row($mq2);
+						$maily = explode(',', $row[0]);
+						for ($i=0; $i&lt;count($maily); $i++) {
+							MailTo($maily[$i], 'info@{SERVER['HTTP_HOST']}', 'Новый коммент на сайте hoolity.ru',
+							'Автор: '.$_POST['name']."&lt;br/>"
+							.'Коммент: '.$_POST['vopros']."&lt;br/>"
+							.'Ссылка на статью: &lt;a href="http://hoolity.ru'.$row2[0].'">'.$row2[1].'&lt;/a>');
+						}
+					//file_put_contents('temp.txt', var_export($_POST, true));
+					$_SESSION['form'] = NULL;
+						</t:checkform>
+						<t:input type="hidden" name="parid" value="{VARS['id']}" />
+							<div class="lhot">
+					<div class="alerts">
+						<p class="n0 invbl medium zel">Комментарий опубликован</p>
+					<p class="n2 invbl"><font color="#ff0000">не заполнены обязательные поля!</font><br/></p>
+					</div>
+					Кто комментирует*:	<t:input size="45" name="name" required="yes" var_name="title" maxlength="50"/><br />
+						<t:textarea required="yes" name="vopros" var_name="content">текст</t:textarea>
+						
+						<input type="button" class="otpr2" value="отправить" />
+						</div>
+					</t:form>
+				</div>
+				<div id="subcomm" class="window"> 	</div>
+			</t:if>
+		</div>
+		<t:block template="songsblock@root.xml" />
+	</div>
+</div>
+<div id="mask"> </div>
+</t:template>
+ 
+
+<t:template id="assoc">
+ 	<t:childrens template="list_item" />
+</t:template>
+ 
+
+<t:template id="list_item">
+	<div class="block_it">
+	<t:if expr="'{USER['user.id']}'=='2'">
+ 	<t:var name="image" img="100x50;;cut" editable="yes" /> 
+	</t:if>
+	<t:if expr="'{USER['user.id']}'!='2'">
+	&lt;img src="/cms/fb/vi?w=100&amp;h=50&amp;m=&amp;url=<t:eval>echo preg_replace('/.*src=\"([^\"]+)\".*/', '$1', '{VARS['image']}');</t:eval>" title="<t:var name="title" />" alt="<t:var name="title" />" />
+	</t:if>
+	<t:var name="title" editable="yes" />
+	</div>
+</t:template>
+
+
+<t:template id="list">
+	<t:a><t:var name="title" editable="yes" /></t:a> <br />
+	<t:childrens template="check" length="1" page="1" />
+	<t:if expr="'{USER_VARS['check']}'!='0'">комментировали <t:childrenscount /> раз<br /></t:if>
+</t:template>
+ 
+
+<t:template id="comment">
+<div class="comment">
+	<t:var name="content" editable="yes" /><br />
+	<div class="avtorcomm">
+	<b><t:var name="title" editable="yes" /> </b> <i><t:var name="create_time" date="d.m.Y H:i" /> </i> 
+	</div>
+	<t:if expr="'{VARS['id']}'=='397'">
+		<div class="gordon"> </div>
+	</t:if>
+</div>
+	<t:a href="#subcomm" name="regmodal" rel="{VARS['id']}" class="otvhr">ОТВЕТИТЬ</t:a>
+	<t:childrens template="subcommts" orderby="create_time" />
+</t:template>
+ 
+
+<t:template id="subcommts">
+<div class="subcomment">
+	<t:first><div class="thisotv"> </div><div class="thisotv2"> </div>
+	</t:first>
+	<t:var name="content" editable="yes" /><br />
+	<div class="avtorcomm">
+	<b><t:var name="title" editable="yes" /> </b> <i><t:var name="create_time" date="d.m.Y H:i" /> </i> 
+	</div>
+</div>
+<t:last>
+	<t:a href="#subcomm" name="regmodal" rel="{VARS['parent_id']}" class="otvhr">ОТВЕТИТЬ</t:a>
+</t:last>
+</t:template>
+
+
+
+<t:template id="check">
+<t:empty><t:setvar name="check" value="0" /></t:empty>
+<t:setvar name="check" value="1" />
+</t:template>
+
+</t:templates>

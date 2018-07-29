@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Создание водяного знака</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link type="text/css" rel="stylesheet" href="/cms/css/cms.css" />
+<script type="text/javascript">//<![CDATA[
+function fb() {
+	var wnd = window.open('/cms/fb', '_blank',
+		'menubar=0,status=0,resizable=1,scrollbars=1,width=640,height=480');
+}
+function fbReturn(sUrl) {
+	document.getElementById('src').value = sUrl;
+}
+function windowReturn() {
+	var src = document.getElementById('src').value;
+	if (src=='') window.returnValue = null;
+	else {
+		var min_w = document.getElementById('min_w').value;
+		var min_h = document.getElementById('min_h').value;
+		var pos_w = document.getElementById('pos_w').value;
+		var pos_h = document.getElementById('pos_h').value;
+		var size_w = document.getElementById('size_w').value;
+		var size_h = document.getElementById('size_h').value;
+
+		window.returnValue = src;
+		if (min_w!='' && min_h!='') window.returnValue += ' min:'+min_w+'x'+min_h;
+		if (pos_w!='' && pos_h!='') window.returnValue += ' pos:'+pos_w+'x'+pos_h;
+		if (size_w!='' && size_h!='') window.returnValue += ' size:'+size_w+'x'+size_h;
+		window.returnValue += ';';
+	}
+	window.close();
+}
+
+window.onload = function() {
+	o = document.getElementById('main');
+	window.resizeBy(o.clientWidth - document.documentElement.clientWidth + 20,
+		o.clientHeight - document.documentElement.clientHeight + 20);
+}
+//]]></script>
+</head>
+<body>
+<table id="main">
+<tr><td>Водяной знак (png)</td><td><input id="src" type="text" /></td><td><button onclick="fb(); return false;">Обзор...</button></td></tr>
+<tr><td>Минимальный размер изображения (px)</td><td><input id="min_w" type="text" size="4" value="200" /> x <input id="min_h" type="text" size="4" value="200" /></td></tr>
+<tr><td>Позиция водяного знака *</td><td><input id="pos_w" type="text" size="4" value="0.1" /> x <input id="pos_h" type="text" size="4" value="0.8" /></td></tr>
+<tr><td>Размер водяного знака *</td><td><input id="size_w" type="text" size="4" value="*" /> x <input id="size_h" type="text" size="4" value="0.1" /></td></tr>
+<tr><td colspan="2">* - позиция и размер указываются в долях; допускается использование символа "*"</td></tr>
+
+<tr><td colspan="2" align="right"><button onclick="windowReturn()">&nbsp;&nbsp;&nbsp;OK&nbsp;&nbsp;&nbsp;</button>
+	<button onclick="window.close()">Отмена</button></td></tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+<t:template id="index">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE"/>
+<link href="/style_foot.css" rel="stylesheet" type="text/css" media="screen"  /> 
+<script type="text/javascript" src="/js/jquery.js"> </script>
+<script type="text/javascript" src="/js/script.js"> </script>
+<t:head />
+&lt;/head>
+<body>
+<div class="vorot"> </div>
+<div class="stranica">
+<t:if expr="'{GET['result']}'=='0' AND '{GET['add']}'==''">
+	<div class="alert">
+		Рассылка совершена!
+	</div>
+</t:if>
+<t:if expr="'{GET['result']}'!='0' OR '{GET['add']}'!=''">
+	<t:if expr="'{GET['result']}'!='' AND '{GET['add']}'==''">
+		<div class="alert">
+			Случилась какая-то жопа!
+		</div>
+	</t:if>
+	<t:setvar name="srq" value="{$_SERVER['REQUEST_URI']}" />
+	<t:form redirect="{USER_VARS['srq']}?add=">
+	<t:checkform>
+		<![CDATA[
+		$body=$_POST['body'];
+		for ($i=0; $i<count($_POST['phone']); $i++) {
+			mail($_POST['phone'][$i],"kommando",$body,"From: \"sms\"\nContent-Type: text/html; charset=utf-8");
+		}
+		]]>
+	</t:checkform>
+	<t:rawquery sql="SELECT * FROM CmsPage WHERE parent_id=369 AND version=0 ORDER BY ABS(image) DESC" template="listfut" /><br />
+	Текст сообщения:<br /> <textarea name="body" cols="40" rows="4"><t:eval>echo date("d.m.y", strtotime(" + 1 day")); </t:eval> в 19.00 состоится футбол. Сбор по адресу: </textarea><br /><input type="submit" class="butt" name="doSend" value="Отправить" />
+	</t:form>
+	<div class="modinpts">
+		добавить новых персонажей:
+		<t:form redirect="{USER_VARS['srq']}?add=y">
+		<t:checkform>
+			<![CDATA[
+			for ($i=0; $i < count($_POST['new_tov']); $i++) {
+				if(!empty($_POST['new_tov'])) 
+					$_POST['_a'][$i] = array(
+						'action' => 'saveAndPublish',
+						'parent_id' => {VARS['id']},
+						'titleToLink' => 'true',
+						'vars' => array(
+							'create_time' => 'NOW',
+							'title' => $_POST['new_tov'][$i],
+							'description' => $_POST['new_num'][$i],
+							'content' => $_POST['oper'][$i]
+						)
+					);
+			}
+			file_put_contents('temp.txt', var_export($_POST, true));
+			]]>
+		</t:checkform>
+			<div class="divdob">
+				<div>
+				имя (фамилия, псевдоним) <input type="text" name="new_tov[]" /><br />
+				 +7 <input type="text" name="new_num[]" /><br />
+				 оператор: <select name="oper[]">
+					<option />
+					<option value="sms.ycc.ru">Мотив</option>
+					<option value="sms.ugsm.ru">Мегафон</option>
+					<option value="sms.uraltel.ru">МТС-Урал</option>
+					<option value="sms.utel.ru">УСИ (Utel)</option>
+					<option value="sms.beemail.ru">Билайн</option>
+				</select><span class="mini"> (не знаешь - оставь пустым) </span>
+				</div>
+				<input type="button" class="add butt" value="добавить" />
+			</div>
+		<input type="submit" class="savtov butt" value="сохранить" />	
+		</t:form> 
+	</div>   
+</t:if>
+</div>
+<div class="myach"> </div>
+<script>
+$(function() {	
+    	var winH = $(window).height();
+   		var winW = $(window).width(); 
+		var pozy = Math.random() * winH;
+		var pozx = Math.random() * winW;
+		$('.myach').css('top',pozy);
+		$('.myach').css('left',pozx);
+});
+</script>
+</body>
+&lt;/html>
+</t:template>
+
+
+<t:template id="listfut">
+<t:eval>//VARS['description'] VARS['content'] </t:eval>
+<t:first>
+	&lt;table class="polosy">
+	<tr>
+		<td>учаснег</td>
+		<td>телеф</td>
+		<td>сыграл</td>
+	</tr>
+	</t:first>
+	<tr>
+	<td>
+		<t:var name="title" /> 
+	</td>
+	<td>
+		+7 &lt;span<t:if expr="'{VARS['content']}'!='sms.ycc.ru' AND '{VARS['content']}'!='sms.ugsm.ru' AND '{VARS['content']}'!='sms.beemail.ru'"> style="color:#b00"</t:if>><t:var name="description" /> &lt;/span>
+		&lt;input type="hidden" name="phone[]" value="7<t:var name="description" />@<t:var name="content" />" />
+	</td>
+	<td>
+		<t:var name="image" editable="yes" />
+	</td>
+	</tr>
+<t:last>
+	&lt;/table>
+</t:last>
+</t:template>
+</t:templates>

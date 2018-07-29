@@ -1,0 +1,13 @@
+.htmleditor_childrens {
+	width: 70px;
+	height: 16px;
+	border: 1px solid Black;
+	background-color: #eeeeee;
+}
+
+.htmleditor_block {
+	width: 70px;
+	height: 16px;
+	border: 1px solid Black;
+	background-color: #cccccc;
+}

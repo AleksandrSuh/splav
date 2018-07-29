@@ -1,0 +1,101 @@
+body {
+	padding: 0px;
+	margin: 0px;
+	font-family: Verdana;
+	font-size: 12px;
+}
+
+a {
+	color: Black;
+	text-decoration: none;
+	display: block;
+	border: 1px solid White;
+}
+
+.main a {
+	width: 250px;
+	overflow: hidden;
+}
+
+a:hover {
+	border: 1px dotted Gray;
+}
+
+table {
+	font-size: 100%;
+}
+
+th {
+	color: Black;
+	background-color: threedface;
+	text-align: left;
+}
+
+table.main td, table.main th {
+	border-right: 1px dotted Gray;
+	padding: 0px 5px;
+	white-space: nowrap;
+}
+
+a img {
+	border: 0px;
+	vertical-align: middle;
+}
+
+a.SelectAll {
+	border: 1px solid threedface;
+	width: 25px;
+}
+
+a:hover.SelectAll {
+	border: 1px solid threedface;
+	text-decoration: underline;
+}
+
+#View {
+	position: fixed;
+	width: 400px;
+	height: 400px;
+	padding: 10px;
+}
+
+#View textarea {
+	width: 380px;
+	height: 350px;
+}
+
+table.ViewImg {
+	width: 220px;
+	height: 220px;
+	border: 1px dotted Gray;
+}
+
+table.ViewImg img {
+	max-width: 200px;
+	max-height: 200px;
+}
+
+a.simple {
+	color: Blue;
+	display: inline;
+	text-decoration: underline;
+	border: 0px;
+}
+
+.path {
+	position: fixed;
+	width: 100%;
+	z-index: 1000;
+	background-color: #ffffff;
+}
+
+.path a {
+	display: inline;
+	line-height: 20px;
+	border: none;
+}
+
+.path a:hover {
+	border: none;
+	color: #75c5f0;
+}

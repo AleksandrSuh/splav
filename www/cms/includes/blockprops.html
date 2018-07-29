@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Создать ссылку</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link type="text/css" rel="stylesheet" href="/cms/css/cms.css" />
+<script type="text/javascript">//<![CDATA[
+function fb() {
+	var wnd = window.open('/cms/fb', '_blank',
+		'menubar=0,status=0,resizable=1,scrollbars=1,width=640,height=480');
+}
+function fbReturn(sUrl) {
+	document.getElementById('src').value = sUrl;
+	changeIcon();
+}
+function windowReturn() {
+	var src = document.getElementById('src').value;
+	//if (src=='') window.returnValue = null;
+	var icon = document.getElementById('iconImg').getAttribute('src');
+	if (window.dialogArguments['text']=='') window.dialogArguments['text'] = src;
+	window.returnValue = '<a href="'+src+'">'+window.dialogArguments['text']+'</a>';
+	if (icon && icon!='')
+		window.returnValue = '<img src="'+icon+'" style="vertical-align: middle;" />&nbsp;'+window.returnValue;
+	window.close();
+}
+function changeIcon() {
+	var type = document.getElementById('icon').value;
+	if (type=='auto') {
+		var ext = document.getElementById('src').value.replace(/^.*\.([^\.]+)$/, '$1');
+		switch (ext) {
+			case 'zip': case 'rar': type = 'archive'; break;
+			case 'txt': case 'rtf': case 'doc': case 'pdf': type = 'text'; break;
+			case 'jpg': case 'jpeg': case 'gif': case 'png': type = 'image'; break;
+			case 'mpg': case 'mpeg': case 'wmv': case 'avi': case 'mp4': type = 'movie'; break;
+			case 'mp3': case 'wma': case 'ogg': type = 'sound'; break;
+			default: type = 'none'; break;
+		}
+	}
+	if (type=='none') document.getElementById('iconImg').removeAttribute('src');
+	else document.getElementById('iconImg').setAttribute('src',
+		'/cms/img/filetypes/'+type+'.gif');
+}
+
+window.onload = function() {
+	o = document.getElementById('main');
+	window.resizeBy(o.clientWidth - document.documentElement.clientWidth + 42,
+		o.clientHeight - document.documentElement.clientHeight + 24);
+}
+//]]></script>
+</head>
+<body>
+<table id="main">
+<tr><td>Ссылка</td><td><input id="src" type="text" onkeyup="changeIcon()" onchange="changeIcon()" /></td><td>
+	<button onclick="fb()">Обзор</button></td></tr>
+<tr><td>Иконка</td><td><img id="iconImg" width="16" height="16" /><select id="icon" onchange="changeIcon()">
+	<option value="auto">Автоопределение</option>
+	<option value="none">Без иконки</option>
+	<option value="archive">Архив</option>
+	<option value="text">Текст</option>
+	<option value="image">Изображение</option>
+	<option value="movie">Видео</option>
+	<option value="sound">Звук</option>
+</select></td></tr>
+<tr><td colspan="2" align="right"><button onclick="windowReturn()">&nbsp;&nbsp;&nbsp;OK&nbsp;&nbsp;&nbsp;</button>
+	<button onclick="window.close()">Отмена</button></td></tr>
+</table>
+</body>
+</html>

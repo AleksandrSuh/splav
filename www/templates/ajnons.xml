@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">	
+	<t:eval>include ('nons.php'); </t:eval>
+<script type="text/javascript">
+    Cufon.replace(".mentitl", {
+                    textShadow: '1px 0px #6E2D1B'
+                    });
+	Cufon.replace(".mendesc");				
+</script>
+</t:template>
+</t:templates>

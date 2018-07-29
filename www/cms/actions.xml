@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<action>
+
+<action name="save"			rights="8"	required="vars" />
+<action name="saveAndPublish"		rights="16"	required="vars" />
+<action name="saveToChilds"		rights="2"	required="id,vars" />
+<action name="publish"			rights="16"	required="id" />
+<action name="publishChilds"		rights="2"	required="id" />
+<action name="publishAll"		rights="1" />
+<action name="hide"			rights="16"	required="id" />
+<action name="delete"			rights="32"	required="id" />
+<action name="deleteChilds"		rights="2"	required="id" />
+<action name="moveTo"			rights="2"	required="id,moveto_id" />
+<action name="moveUp"			rights="2"	required="id" />
+<action name="moveDown"			rights="2"	required="id" />
+<action name="moveToFirst"		rights="2"	required="id" />
+<action name="moveToLast"		rights="2"	required="id" />
+<action name="backup"			rights="2"	required="id,version" />
+<action name="addAssoc"			rights="64"	required="id,foreign_id" />
+<action name="removeAssoc"		rights="64"	required="id,foreign_id" />
+
+<action name="userSave"			rights="4"	required="vars" />
+<action name="userDelete"		rights="1"	required="id" />
+<action name="groupSave"		rights="1"	required="name" />
+<action name="groupDelete"		rights="1"	required="id" />
+<action name="rightsSave"		rights="1"	required="ug_id,is_group,link,allow,disallow" />
+<action name="rightsDelete"		rights="1"	required="id" />
+
+<action name="dbcClearCache"		rights="4" />
+<action name="authenticate"		rights="4"	required="user,password" />
+
+</action>

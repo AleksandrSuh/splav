@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+	<t:template id="index">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>CMS Редактор прав</title>
+	<link type="text/css" rel="stylesheet" href="/cms/css/cms.css" />
+	<style type="text/css">
+	body {
+		margin: 0px 20px;
+		background-image: url('/cms/img/cms/left.jpg');
+		background-repeat:no-repeat;
+	}
+	td {
+		line-height: 20px;
+		padding: 3px;
+	}
+	table {
+		border: 1px solid LightGrey;
+	}
+	th {
+		background-color: #d5f0fd;
+		color: #0079a3;
+		height: 24px;
+	}
+	</style>
+	<script type="text/javascript" src="/cms/js/cms.js"> </script>
+</head>
+<body>
+			
+<div class="tophelp">
+	<img src="/cms/img/cms/tophelp-left.jpg" style="float: left;" />
+	<img src="/cms/img/cms/tophelp-right.jpg" style="float: right" />
+	<div id="oHelp"><b>Редактор прав</b><br /><small style="color: #990000;"> <t:var name="Error" /></small></div>
+</div>&amp;nbsp;
+
+<t:rawquery sql="SELECT * FROM {TABLE_GROUP}" xpath="/db/group" template="group" /><br />
+<t:select sql="SELECT * FROM {TABLE_USER}" xpath="/db/group/user" template="user" orderby="id" length="20" /><br />
+<t:rawquery sql="SELECT * FROM {TABLE_RIGHTS}" xpath="/db/rights/right" template="rights" /><br />
+<table cellspacing="3" cellpadding="0" width="100%"><tr><td>
+<p>
+<b>Основные права:</b><br />
+0 - нет прав<br />
+1 - администратор<br />
+2 - модератор<br />
+4 - гость<br />
+</p>
+<p><b>Дополнительные права:</b><br />
+8 - право гостя на сохранение<br />
+16 - право гостя на публикацию<br />
+32 - право гостя на удаление<br />
+64 - право гостя на управление связками<br />
+</p>
+</td></tr></table>
+		</body>
+		&lt;/html&gt;
+	</t:template>
+	
+	<t:template id="group">
+<t:first>
+<div class="vartitle" style="margin-top: 150px;">Группы</div>
+&lt;table cellpadding="0" cellspacing="3" border="0" width="100%"&gt;
+<tr><th>Id</th><th>Имя</th><th>Действия</th></tr></t:first>
+&lt;form method="post" action="/cms/action" id="group<t:var name="id" />">
+<input type="hidden" name="_a[0][action]" />&lt;input type="hidden" name="_a[0][id]" value="<t:var name="id" />" /&gt;<tr>
+<td><t:var name="id" /></td>
+<td>&lt;input type="text" name="_a[0][name]" value="<t:var name="name" />" /&gt;</td>
+<td>	
+	&lt;div class="button" style="float: left; width: 100px; margin-right: 20px; text-align: center;" onclick="var f = document.getElementById('group<t:var name="id" />'); f.elements['_a[0][action]'].value = 'groupSave'; f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Сохранить
+	&lt;/div>
+	&lt;div class="button" style="float: left; width: 100px; text-align: center;" onclick="var f = document.getElementById('group<t:var name="id" />'); f.elements['_a[0][action]'].value = 'groupDelete'; f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Удалить
+	&lt;/div>
+	
+</td>
+</tr>&lt;/form>
+<t:last>
+&lt;form method="post" action="/cms/action" id="group2<t:var name="id" />">
+<input type="hidden" name="_a[0][action]" /><tr><td>&amp;nbsp;</td>
+<td>&lt;input type="text" name="_a[0][name]" /&gt;</td>
+<td>
+	&lt;div class="button" style="float: left; width: 100px; margin-right: 20px; text-align: center;" onclick="var f = document.getElementById('group2<t:var name="id" />'); f.elements['_a[0][action]'].value = 'groupSave'; f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Добавить
+	&lt;/div>
+</td>
+</tr>&lt;/form>
+&lt;/table&gt;</t:last>
+	</t:template>
+	
+	<t:template id="user">
+<t:first>
+<div class="vartitle">Пользователи</div>
+&lt;table cellpadding="0" cellspacing="3" border="0" width="100%"&gt;
+<tr><th>Id</th><th>Группа</th><th>Имя</th><th>Пароль</th><th>Повтор пароля</th><th>Срок действия</th><th>E-mail</th><th>Действия</th></tr></t:first>
+&lt;form method="post" action="/cms/action" id="user<t:var name="id" />">
+<input type="hidden" name="_a[0][action]" /><input type="hidden" name="_a[0][vars]" />&lt;input type="hidden" name="_a[0][id]" value="<t:var name="id" />" /&gt;<tr>
+<td><t:var name="id" /></td>
+<td>&lt;input type="text" name="_a[0][group_id]" value="<t:var name="group_id" />" /&gt;</td>
+<td>&lt;input type="text" name="_a[0][name]" value="<t:var name="name" />" /&gt;</td>
+<td>&lt;input type="password" name="_a[0][password]" /&gt;</td>
+<td>&lt;input type="password" name="password2" /&gt;</td>
+<td>&lt;input type="text" name="_a[0][expire]" value="<t:var name="expire" />"<t:if expr="'{VARS['expire']}'&gt;=date('Y-m-d H:i:s')"><t:then> style="color: Green"</t:then><t:else> style="color: Red"</t:else></t:if> /&gt;</td>
+<td>&lt;input type="text" name="_a[0][email]" value="<t:var name="email" />" /&gt;</td>
+<td>
+	&lt;div class="button" style="float: left; width: 100px; margin-right: 20px; text-align: center;" onclick="var f = document.getElementById('user<t:var name="id" />'); f.elements['_a[0][action]'].value = 'userSave'; if (!CheckPassword(f)) alert('Пароль и его повтор не совпадают'); else f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Сохранить
+	&lt;/div>
+	&lt;div class="button" style="float: left; width: 100px; text-align: center;" onclick="var f = document.getElementById('user<t:var name="id" />'); f.elements['_a[0][action]'].value = 'userDelete'; f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Удалить
+	&lt;/div>
+</td>
+</tr>&lt;/form>
+<t:last>
+&lt;form method="post" action="/cms/action" id="user2<t:var name="id" />">
+<input type="hidden" name="_a[0][action]" /><input type="hidden" name="_a[0][vars]" />
+<tr><td>&amp;nbsp;</td>
+<td>&lt;input type="text" name="_a[0][group_id]" /&gt;</td>
+<td>&lt;input type="text" name="_a[0][name]" /&gt;</td>
+<td>&lt;input type="password" name="_a[0][password]" /&gt;</td>
+<td>&lt;input type="password" name="password2" /&gt;</td>
+<td>&lt;input type="text" name="_a[0][expire]" /&gt;</td>
+<td>&lt;input type="text" name="_a[0][email]" /&gt;</td>
+<td>
+	&lt;div class="button" style="float: left; width: 100px; margin-right: 20px; text-align: center;" onclick="var f = document.getElementById('user2<t:var name="id" />'); f.elements['_a[0][action]'].value = 'userSave'; if (!CheckPassword(f)) alert('Пароль и его повтор не совпадают'); else f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Добавить
+	&lt;/div>
+</td>
+</tr>&lt;/form>
+&lt;/table&gt;<t:rule/></t:last>
+	</t:template>
+	
+	<t:template id="rights">
+<t:first>
+<div class="vartitle">Права</div>
+&lt;table cellpadding="0" cellspacing="3" border="0" width="100%"&gt;
+<tr><th>Id</th><th>Id пользователя/группы</th><th>Страница</th><th>Разрешено</th><th>Запрещено</th><th>Действия</th></tr></t:first>
+&lt;form method="post" action="/cms/action" id="rights<t:var name="id" />">
+<input type="hidden" name="_a[0][action]" />&lt;input type="hidden" name="_a[0][id]" value="<t:var name="id" />" /&gt;<tr>
+<td><t:var name="id" /></td>
+<td style="white-space: nowrap;">&lt;input type="text" name="_a[0][ug_id]" value="<t:var name="ug_id" />" /&gt;
+&lt;input type="radio" name="_a[0][is_group]" value="false"<t:if expr="'{VARS['is_group']}'=='false'"><t:then> checked="checked"</t:then><t:else /></t:if> /&gt; пользователь &lt;input type="radio" name="_a[0][is_group]" value="true"<t:if expr="'{VARS['is_group']}'=='true'"><t:then> checked="checked"</t:then><t:else /></t:if> /&gt; группа</td>
+<td>&lt;input type="text" name="_a[0][link]" value="<t:var name="link" />" /&gt;</td>
+<td>&lt;input type="text" name="_a[0][allow]" value="<t:var name="allow" />" /&gt;</td>
+<td>&lt;input type="text" name="_a[0][disallow]" value="<t:var name="disallow" />" /&gt;</td>
+<td>
+	&lt;div class="button" style="float: left; width: 100px; margin-right: 20px; text-align: center;" onclick="var f = document.getElementById('rights<t:var name="id" />'); f.elements['_a[0][action]'].value = 'rightsSave'; f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Сохранить
+	&lt;/div>
+	&lt;div class="button" style="float: left; width: 100px; text-align: center;" onclick="var f = document.getElementById('rights<t:var name="id" />'); f.elements['_a[0][action]'].value = 'rightsDelete'; f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Удалить
+	&lt;/div>
+</td>
+</tr>&lt;/form>
+<t:last>
+&lt;form method="post" action="/cms/action" id="rights2<t:var name="id" />">
+<input type="hidden" name="_a[0][action]" /><tr><td>&amp;nbsp;</td>
+<td>&lt;input type="text" name="_a[0][ug_id]" /&gt;
+&lt;input type="radio" name="_a[0][is_group]" value="false" /&gt; пользователь &lt;input type="radio" name="_a[0][is_group]" value="true" /&gt; группа</td>
+<td>&lt;input type="text" name="_a[0][link]" /&gt;</td>
+<td>&lt;input type="text" name="_a[0][allow]" /&gt;</td>
+<td>&lt;input type="text" name="_a[0][disallow]" /&gt;</td>
+<td>
+	&lt;div class="button" style="float: left; width: 100px; margin-right: 20px; text-align: center;" onclick="var f = document.getElementById('rights2<t:var name="id" />'); f.elements['_a[0][action]'].value = 'rightsSave'; f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Добавить
+	&lt;/div>
+</td>
+</tr>&lt;/form>
+&lt;/table&gt;</t:last>
+	</t:template>
+</t:templates>

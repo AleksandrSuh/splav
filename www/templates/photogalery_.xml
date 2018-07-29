@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+<t:template id="index">
+<script type="text/javascript" src="/js/photogallery/jquery.easing.1.3.js"> </script>
+<!--<script type="text/javascript" src="/js/photogallery/script.js"> </script>-->
+<script type="text/javascript" src="/js/script.js"> </script>
+<link rel="stylesheet" href="/css/photogalery.css" type="text/css" />
+<t:head />
+&lt;/head>
+<body class="photogalery">
+<t:if expr="'{USER['user.id']}'!='2'">
+<t:block template="checkuser@root.xml" />
+</t:if>
+<t:setvar name="curid" value="{VARS['id']}" />
+<a href="/" class="mainback"> на главную</a>
+<a href="#form" class="photoadd" name="regmodal"> добавить фото</a>
+	<div id="bg">
+		<a href="#" class="nextImageBtn" title="next"> </a><a href="#" class="prevImageBtn" title="previous"> </a>
+		<t:childrens id="39" template="stroka" length="1" page="1" orderby="?" />
+	</div>
+	<div id="preloader"><img src="/img/phgalery/ajax-loader_dark.gif" width="32" height="32" /></div>
+	<div id="img_title">Идёт загрузка фотографии</div>
+	<div id="toolbar"><a href="#" title="Maximize" onClick="ImageViewMode('full');return false"><img src="/img/phgalery/toolbar_fs_icon.png" width="50" height="50"  /></a></div>
+	<div id="thumbnails_wrapper">
+	<div id="outer_container">
+	<div class="thumbScroller">
+		<div class="container">
+			<t:childrens template="list" />
+	</div>
+</div>
+</div>
+</div>
+<div id="form" class="window"> 
+	<div class="close">закрыть</div>
+	<div class="attent">
+	Внимание, уважаемые хулиты! Фотографии грузить ТОЛЬКО имеющие непосредственное отношение к сплаву!<br /> Большая просьба, не путаться с выбором года во избежание бардака ;)<br /> Спасибо за предоставляемые материалы!
+	</div>
+<t:form action="saveAndPublish">
+	<t:checkform>
+	$mq = mysql_query('SELECT title FROM CmsPage WHERE version=0 AND id='.$_POST['god']);
+	$row = mysql_fetch_row($mq);
+	$_POST['_a'][0]['parent_id'] = $_POST['god'];
+	if (empty($_POST['title'])) $_POST['_a'][0]['vars']['title'] = 'Новая запись';
+MailTo('{USER_VARS['email администратора']}', 'info@{SERVER['HTTP_HOST']}', 'Новое фото на сайте',
+'Название: '.$_POST['title']."&lt;br/>"
+.'фото размещено в '.$row[0]."&lt;br/>"
+);
+$_SESSION['form'] = NULL;
+	</t:checkform>
+	<span class="poya">выбрать год снимка*</span><br />
+	<t:childrens id="8" template="boxes" />	
+	<div class="llear"> </div>
+	<span class="poya">заголовок для фотографии (крайне желательно)</span>
+	<t:input var_name="title" name="title" type="text" />
+	<span class="poya small norm">фотка весом > 3.7 Мбайт не будет загружена!</span>
+<t:input type="upload_image" name="image" var_name="image" max_file_size="3700000" />
+<input type="submit" value="сохранить" />
+	</t:form>
+</div>
+<div id="mask"> </div>
+<script type="text/javascript" src="/js/photogallery/script.js"> </script>
+</body>
+</t:template>
+
+
+
+
+<t:template id="stroka">
+		&lt;img src="<t:childrens id="316" template="src" length="1" page="1" orderby="?" />" alt="<t:var name="description" />" title="<t:var name="description" />" id="bgimg" />
+</t:template>
+
+
+
+
+<t:template id="src"><t:eval>echo preg_replace('/.*src=\"([^\"]+)\".*/', '$1', '{VARS['image']}');</t:eval></t:template>
+
+
+<t:template id="list">
+			<div class="content">
+				<div>&lt;a href="/cms/fb/vi?h=*&amp;w=1500&amp;url=<t:eval>echo preg_replace('/.*src=\"([^\"]+)\".*/', '$1', '{VARS['image']}');</t:eval>">&lt;img src="/cms/fb/vi?h=70&amp;w=*&amp;url=<t:eval>echo preg_replace('/.*src=\"([^\"]+)\".*/', '$1', '{VARS['image']}');</t:eval>"<t:if expr="'{VARS['title']}'!='Новая запись'"> title="<t:var name="title" />" alt="<t:var name="title" />"</t:if><t:if expr="'{VARS['title']}'=='Новая запись'"> title=" " alt=" "</t:if> class="thumb" />&lt;/a></div>
+			</div>
+</t:template>
+
+
+
+
+<t:template id="boxes">
+<div class="chbox">
+&lt;input type="radio" value="<t:var name="id" />" name="god"<t:if expr="'{VARS['id']}'=='{USER_VARS['curid']}'"> checked="checked"</t:if> /> <t:var name="title" />
+</div>
+</t:template>
+</t:templates>

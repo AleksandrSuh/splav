@@ -1,0 +1,197 @@
+.ToolMenu {
+	font-family: Arial;
+	font-size: 13px;
+	background-color: threedface;
+	border: 1px solid threedshadow;
+	overflow: hidden;
+}
+.ToolMenu a {
+	display: block;
+	background-color: menu;
+	/*border-left: 1px solid threedhighlight;
+	border-top: 1px solid threedhighlight;
+	border-right: 1px solid threedshadow;
+	border-bottom: 1px solid threedshadow;*/
+	line-height: 24px;
+	padding: 0px 10px;
+	color: threedshadow;
+	text-decoration: none;
+	cursor: default;
+	white-space: nowrap;
+}
+.ToolMenu a:link, .ToolMenu a:active, .ToolMenu a:visited {
+	color: menutext;
+}
+.ToolMenu a:hover {
+	background-color: highlight;
+	color: highlighttext;
+}
+.ToolMenu img {
+	display: block;
+	float: left;
+	margin: 1px 2px;
+}
+.ToolMenuSource {
+	float: left;
+}
+.ToolMenuTarget {
+	position: absolute;
+	visibility: hidden;
+	border: 1px solid threedshadow;
+}
+
+.HighlightBar {
+	background-color: Lightgreen;
+	height: 20px;
+	white-space: nowrap;
+}
+.RightToolMenu {
+	float: right;
+	font-size: 10px;
+	padding-right: 10px;
+	white-space: nowrap;
+}
+.RightToolMenu a {
+	display: inline;
+	background: none;
+	border: 0px;
+	line-height: 12px;
+	padding: 0px;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.RightToolMenu a:link, .RightToolMenu a:active, .RightToolMenu a:visited, .RightToolMenu a:hover {
+	color: menutext;
+	background: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.ToolBarEditor {
+	white-space: nowrap;
+	width: 460px;
+}
+
+.ToolBarEditor a, .ToolBarEditorFb a {
+	display: block;
+	float: left;
+	border: 1px dotted #999999;
+	background-color: #eeeeee;
+	margin: 1px;
+	padding: 2px;
+	line-height: 0px;
+}
+
+.ToolBarEditor a:hover, .ToolBarEditorFb a:hover {
+	border: 1px solid #75c5f0;
+}
+
+.ToolBarEditor a img {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	display: block;
+}
+
+.ToolBarEditor br {
+	clear: left;
+}
+
+.cmsEditableMaximize {
+	display: block;
+	overflow: auto;
+	position: fixed;
+	left: 0px;
+	top: 84px;
+	border: 1px dotted #999999;
+	background-color: #ffffff;
+	color: #000000;
+	padding: 5px;
+}
+
+
+.AltContextMenu {
+	background-color: threedface;
+	border: 1px solid threedshadow;
+	color: menutext;
+	font-size: 10px;
+	line-height: 20px;
+	padding: 0px 5px;
+	cursor: default;
+}
+
+
+
+
+
+
+
+
+
+
+
+.cmsEditable {
+	display: inline;
+}
+
+.cmsEditable[edit="no"][pubmode="hidden"] {
+	background-color: #cccccc;
+	border-bottom: 1px solid #cccccc;
+}
+
+.cmsEditable[edit="no"][pubmode="edited"], .cmsEditable[edit="no"][var_changed="yes"] {
+	background-color: #ffcccc;
+	border-bottom: 1px solid #ffcccc;
+}
+
+.cmsEditable[edit="no"][pubmode="hidden"] img, .cmsEditable[edit="no"][pubmode="edited"] img {
+	opacity: 0.50;
+	filter: alpha(opacity=50);
+}
+
+
+
+.cmsEditable:hover[edit="no"] {
+	background-color: #ccccff;
+	border-bottom: 1px solid #ccccff;
+}
+
+.cmsEditable:hover[edit="no"] img {
+	opacity: 0.50;
+	filter: alpha(opacity=50);
+}
+
+.cmsEditable:hover[edit="no"] .cmsEditable:hover[edit="no"] {
+	background-color: #cceeee;
+	border-bottom: 1px solid #cceeee;
+}
+
+
+
+.cmsEditable[edit="yes"] {
+	background-color: transparent;
+	border-bottom: none;
+}
+
+.cmsEditable[edit="yes"] img {
+	opacity: 1;
+	filter: alpha(opacity=100);
+}
+
+
+
+
+#cmsColorPicker td {
+	width: 10px;
+	height: 10px;
+}
+

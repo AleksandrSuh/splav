@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">	
+<div class="vecher"><img src="/img/plam4.gif" /> </div>
+<div id="verh">
+	<div id="bodyContainer">
+		<div id="imageBtm">
+			<t:block template="headblock@root.xml" />
+			<div id="mainBody">
+				<div id="mainContent">
+					<h2><div class="ic_sp"><span class="botbord"><t:var name="title" editable="yes" /></span></div></h2>
+					<t:var name="content" editable="yes" /><br />
+					<div class="uch_listing">
+						<t:childrens template="minlist" />
+					</div>
+				</div>
+				<t:block template="songsblock@root.xml" />
+			</div>
+		</div>
+	</div>
+	<!--<t:childrens template="list" />-->
+</div>
+</t:template>
+
+
+
+<t:template id="minlist">
+&lt;div class="veles"<t:if expr="'{VARS['title']}'=='Ода сплаву'"> id="nons"</t:if>>
+<h2 class="mentitl">
+	<t:var name="title" editable="yes" /> 
+</h2>
+	<t:var name="content" editable="yes" />
+&lt;/div>
+<div class="avtor">
+	<t:var name="description" editable="yes" />
+</div>
+<t:if expr="'{VARS['title']}'=='Ода сплаву'">
+<a href="#nons" class="otvhr" onclick="Load('nons', '/techn_pages/ajax/nons')">прочесть другую версию</a>
+</t:if>
+</t:template>
+
+
+
+<t:template id="list">
+<t:div id="bc{VARS['id']}" class="bodyContainer">
+<t:last>&lt;div id="imageBtm"></t:last>
+<div id="mainBody">
+	<div id="mainContent2">
+    <div class="example">
+	    <div class="ppy">
+		<t:if expr="'{USER['user.id']}'!='2'">
+            <ul class="ppy-imglist">
+				<t:childrens template="fotos" />
+            </ul>
+		</t:if>
+		<div class="ppy-outer">
+			<div class="ppy-stage">
+				<div class="ppy-nav">
+					<a class="ppy-prev" title="предыдущее фото">предыдущее фото</a>
+					<a class="ppy-switch-enlarge" title="увеличить">увеличить</a>
+					<a class="ppy-switch-compact" title="закрыть">закрыть</a>
+					<a class="ppy-next" title="следующее фото">следующее фото</a>
+				</div>
+			</div>
+		</div>
+		<div class="ppy-caption">
+			<div class="ppy-counter">
+				Фото <strong class="ppy-current"> </strong> из <strong class="ppy-total"> </strong> 
+			</div>
+			<span class="ppy-text"> </span>
+		</div>
+	</div>
+        <h2><t:var name="title" /> </h2>        
+			Годы участия: <t:var name="image" editable="yes" /><br />
+			<t:var name="content" editable="yes" />
+			<a href="#verh" class="naverh">всплыть наверх</a>
+		</div>
+		<t:if expr="'{USER['user.id']}'=='2'">
+		<t:childrens template="fotos_adm" />
+		</t:if>
+	</div>
+</div>
+<t:last>&lt;/div>
+</t:last>
+</t:div>
+</t:template>
+
+
+
+
+<t:template id="fotos_adm">
+<div>
+		<span style="float:left"><t:var name="image" img="*x100" editable="yes" /> </span>
+                        <strong><t:var name="title" editable="yes" /></strong><br />
+						<t:var name="description" editable="yes" />
+</div>
+</t:template>
+
+
+<t:template id="fotos">
+	<li>
+		&lt;a href="/cms/fb/vi?h=*&amp;w=800&amp;url=<t:eval>echo preg_replace('/.*src=\"([^\"]+)\".*/', '$1', '{VARS['image']}');</t:eval>">
+			<t:var name="image" img="*x100" editable="yes" />
+		&lt;/a>
+       <span class="ppy-extcaption">
+                        <strong><t:if expr="'{VARS['title']}'!='Новая запись' AND '{VARS['title']}'!='Новая страница'"><t:var name="title" editable="yes" /></t:if> </strong><br />
+						<t:var name="description" editable="yes" />
+       </span>
+	</li>
+</t:template>
+
+</t:templates>

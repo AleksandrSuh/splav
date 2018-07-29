@@ -1,0 +1,16 @@
+<form><table style="margin: 20px;">
+<tr><td>Ссылка</td><td><input id="cmsSrc" type="text" onkeyup="cmsChangeIcon()" onchange="cmsChangeIcon()" /></td><td>
+	<button onclick="fb(); return false;">Обзор...</button></td></tr>
+<tr><td>Иконка</td><td><img id="cmsIconImg" width="16" height="16" /><select id="cmsIcon" onchange="cmsChangeIcon()">
+	<option value="auto">Автоопределение</option>
+	<option value="none">Без иконки</option>
+	<option value="archive">Архив</option>
+	<option value="text">Текст</option>
+	<option value="image">Изображение</option>
+	<option value="movie">Видео</option>
+	<option value="sound">Звук</option>
+</select></td></tr>
+<tr><td colspan="2" align="right">
+	<button onclick="cmsCreateLink(); return false;">&nbsp;&nbsp;&nbsp;OK&nbsp;&nbsp;&nbsp;</button>
+	<button onclick="modalDlg.close(); return false;">Отмена</button></td></tr>
+</table></form>

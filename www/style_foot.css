@@ -1,0 +1,110 @@
+/* CSS Document */
+
+* {
+	margin: 0px;
+	padding: 0px;
+	}
+	
+body {
+	background:url(img/pole_r2_c2.jpg);
+	color: #fff;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:13px;
+	font-weight:bold;
+	}
+	
+/*p {
+	font: 12px/20px "Times New Roman", Times, serif;
+	}*/
+
+
+ a {
+	color: #68291A;
+	text-decoration: none;
+	border-bottom: 1px dotted #F4A156;
+	padding: 0px 0px 1px 0px;
+	}
+	
+a:hover {
+	background-color: #FFF2D1;
+	}
+.polosy td {
+	background:url(/img/polosy.jpg);
+	padding:4px 20px;
+	font-weight:bold;
+	color:#000066;
+}
+.stranica {
+	width:600px;
+	margin:0 auto;
+	padding:25px;
+	font-size:16px;
+	position:relative;
+	z-index:1;
+	}
+.alert {
+font-size:18px;
+color:#990000;
+}
+.modinpts {
+margin-top:45px;
+line-height:24px;
+border:#fff solid 6px;
+padding:20px;
+	-webkit-border-radius: 3px;
+  	-moz-border-radius: 3px;
+	border-radius:3px;
+}
+.modinpts input{
+	font-size:22px;
+	padding:4px 6px;
+	-webkit-border-radius: 3px;
+  	-moz-border-radius: 3px;
+	border-radius:3px;
+	border:#FF9900 solid 1px;
+	margin:5px;
+}
+input.butt {
+	background:#333333;
+	text-shadow:1px 0px 0 rgba(255,255,255,0.3);
+	color:#FF9900;
+	font-weight:bold;
+	padding:10px 45px;
+	text-align:center;
+	-webkit-border-radius: 8px;
+  	-moz-border-radius: 8px;
+	border-radius:8px;
+	border:none;
+	box-shadow:2px 2px 6px rgba(0,0,0,0.8), inset 1px 1px 2px rgba(255,255,255,0.5);
+	margin:5px 0 10px;
+	cursor:pointer;
+	font-size:14px;
+}
+.divdob {
+	font-size:14px;
+	}
+.mini {
+	font-size:11px;
+	}
+.vorot {
+	background:url(/img/vorot.jpg) no-repeat;
+	width:188px;
+	height:387px;
+	position:absolute;
+	top:300px;
+	left:15px;
+}
+.myach {
+	background:url(img/myach.png) no-repeat;
+	width:85px;
+	height:85px;
+	position:absolute;
+	top:0;
+	z-index:0
+}
+.grenalert {
+	color:#669966;
+	font-size:16px;
+	padding:10px 25px;
+	float:left;
+}

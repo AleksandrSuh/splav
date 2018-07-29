@@ -1,0 +1,49 @@
+<div id="oToolBarDiv" style="background-color: threedface; position: fixed; width: 100%; z-index: 999;">
+<div class="ToolMenu">
+<a href="#" class="ToolMenuSource" id="tm1s" onclick="ToolMenuClick('tm1s', 'tm1t'); return false;" onmouseout="ToolMenuClose('tm1t');">Страница</a>
+<div class="ToolMenuTarget" id="tm1t" onmouseover="ToolMenuOpen('tm1s', 'tm1t');" onmouseout="ToolMenuClose('tm1t');" onclick="ToolMenuCloseNow('tm1t');">
+	<a href="javascript:CallMenuFunction('SavePage');">Сохранить</a>
+    <a href="javascript:CallMenuFunction('PublishPage');">Опубликовать</a>
+    <a href="javascript:CallMenuFunction('Import');">Импорт</a>
+    <a href="javascript:CallMenuFunction('Export');">Экспорт</a>
+    <a href="javascript:CallMenuFunction('Email');">Рассылка</a>
+    <a href="javascript:CallMenuFunction('PageMaster');">Мастер создания раздела</a>
+    <a href="javascript:CallMenuFunction('EditHead');">Редактор Head</a>
+    <a href="javascript:CallMenuFunction('BackEnd');">Перейти в BackEnd</a>
+</div>
+<a href="#" class="ToolMenuSource" id="tm2s" onclick="ToolMenuClick('tm2s', 'tm2t'); return false;" onmouseout="ToolMenuClose('tm2t');">Сайт</a>
+<div class="ToolMenuTarget" id="tm2t" onmouseover="ToolMenuOpen('tm2s', 'tm2t');" onmouseout="ToolMenuClose('tm2t');" onclick="ToolMenuCloseNow('tm2t');">
+	<a href="javascript:CallMenuFunction('PublishAll');">Опубликовать</a>
+    <a href="javascript:CallMenuFunction('Config');">Конфигурация</a>
+    <a href="javascript:CallMenuFunction('RootTemplateProperties');">Настройки корневого шаблона</a>
+    <a href="javascript:CallMenuFunction('Rights');">Редактирование прав</a>
+    <a href="javascript:CallMenuFunction('StyleCss');">style.css</a>
+    <a href="javascript:CallMenuFunction('Htaccess');">.htaccess</a>
+    <a href="javascript:CallMenuFunction('RobotsTxt');">robots.txt</a>
+    <a href="javascript:CallMenuFunction('SiteStat');">Статистика</a>
+</div>
+<a href="#" class="ToolMenuSource" id="tm3s" onclick="ToolMenuClick('tm3s', 'tm3t'); return false;" onmouseout="ToolMenuClose('tm3t');">Помощь</a>
+<div class="ToolMenuTarget" id="tm3t" onmouseover="ToolMenuOpen('tm3s', 'tm3t');" onmouseout="ToolMenuClose('tm3t');" onclick="ToolMenuCloseNow('tm3t');">
+	<a href="javascript:CallMenuFunction('About');">О программе</a>
+	<a href="javascript:CallMenuFunction('Update');">Проверить обновления</a>
+</div>
+<div id="RightToolMenu" class="RightToolMenu"></div>
+</div>
+<div id="ToolBarEditor" class="ToolBarEditor">Загрузка...</div>
+</div>
+<div id="oToolBarDivBlock" style="height: 28px;"></div>
+<script type="text/javascript">
+	//cmsInit(true);
+	var result = '';
+	var size_before = cmsGetCookie('psb');
+	var size_after = cmsGetCookie('psa');
+	var RightToolMenu = document.getElementById('RightToolMenu');
+	var buf = 'Пользователь: '+window.CmsUserName+' <a href="/logout">[выход]</a> <a href="/login">[сменить]</a><br />';
+	buf += 'Генерация: '+window.CmsGenerateTime+'с; ';
+	if (size_before && size_after) {
+		size_before = Math.round(size_before/100)/10;
+		size_after = Math.round(size_after/100)/10;
+		buf += 'GZip: '+size_after+'Кб/'+size_before+'Кб (<strong>'+(100-Math.round(size_after/size_before*100))+'%</strong>)';
+	}
+	RightToolMenu.innerHTML = buf;
+</script>

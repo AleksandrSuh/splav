@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>CMS Статистика</title>
+<link type="text/css" rel="stylesheet" href="/cms/css/cms.css" />
+<style type="text/css">
+td {
+	text-align: right;
+	line-height: 20px;
+	border: 1px solid LightGrey;
+	padding: 3px;
+}
+table {
+	border: 1px solid LightGrey;
+}
+th {
+	background-color: #d5f0fd;
+	color: #0079a3;
+}
+a {
+	text-decoration: underline;
+}
+</style>
+</head>
+<body style="background-image: url('/cms/img/cms/left.jpg'); background-repeat:no-repeat;">
+
+<div class="tophelp">
+	<img src="/cms/img/cms/tophelp-left.jpg" style="float: left;" />
+	<img src="/cms/img/cms/tophelp-right.jpg" style="float: right" />
+	<div id="oHelp"><b>Статистика</b></div>
+</div>&amp;nbsp;
+
+<div style="margin: 150px 20px 20px;">
+<table cellspacing="3" cellpadding="0" width="100%">
+<tr><th>Месяц</th><th>Посещений</th><th>Уникальных</th><th>Внешних</th><th><img src="/cms/img/cms/google.jpg" /></th><th><img src="/cms/img/cms/yandex.jpg" /></th><th><img src="/cms/img/cms/rambler.jpg" /></th><th>Средне-суточная посещаемость</th></tr>
+
+<t:select sql="SELECT `year`, `month`, `click`, `unique`, `external`, `google`, `yandex`, `rambler` FROM `{TABLE_STAT}`" xpath="/stat/stat" db_file="stat.xml" orderby="`year` DESC, `month` DESC" template="list" length="13" />
+
+</table>
+</div>
+
+</body>
+&lt;/html&gt;
+</t:template>
+
+<t:template id="list">
+<tr>
+	<td>&lt;a href="/cms/stat/search?y=<t:var name="year" />&amp;m=<t:var name="month" />"><t:var name="month" />.<t:var name="year" />&lt;/a></td>
+	<td><t:var name="click" /></td>
+	<td><t:var name="unique" /></td>
+	<td><t:var name="external" /></td>
+	<td><t:var name="google" /></td>
+	<td><t:var name="yandex" /></td>
+	<td><t:var name="rambler" /></td>
+	<td><t:eval><t:statement>
+		if (VARS['month']==date('m')) printf('%.3f', VARS['unique']/date('d'));
+		else printf('%.3f', VARS['unique']/date('t', strtotime(VARS['year'].'-'.VARS['month'].'-01')));
+	</t:statement></t:eval></td>
+</tr>
+<t:last><tr><td colspan="8"><t:rule /></td></tr></t:last>
+</t:template>
+
+</t:templates>

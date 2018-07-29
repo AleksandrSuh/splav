@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>CMS Статистика поисковых фраз</title>
+<link type="text/css" rel="stylesheet" href="/cms/css/cms.css" />
+<style type="text/css">
+td {
+	text-align: right;
+	line-height: 20px;
+	border: 1px solid LightGrey;
+	padding: 3px;
+}
+table {
+	border: 1px solid LightGrey;
+}
+th {
+	background-color: #d5f0fd;
+	color: #0079a3;
+}
+</style>
+</head>
+<body style="background-image: url('/cms/img/cms/left.jpg'); background-repeat:no-repeat;">
+
+<div class="tophelp">
+	<img src="/cms/img/cms/tophelp-left.jpg" style="float: left;" />
+	<img src="/cms/img/cms/tophelp-right.jpg" style="float: right" />
+	<div id="oHelp"><b>Статистика поисковых фраз</b><br /><t:var get="m" />.<t:var get="y" /></div>
+</div>&amp;nbsp;
+
+<div style="margin: 150px 20px 20px;">
+<table cellspacing="3" cellpadding="0" width="100%">
+<tr><th>Поисковая фраза</th><th><img src="/cms/img/cms/google.jpg" /></th><th><img src="/cms/img/cms/yandex.jpg" /></th><th><img src="/cms/img/cms/rambler.jpg" /></th><th>Общее</th></tr>
+
+<t:select sql="SELECT `year`, `month`, `search`, `google`, `yandex`, `rambler`, `sum` FROM `{TABLE_SEARCH_STAT}` WHERE `month`='{GET['m']}' AND `year`='{GET['y']}'" xpath="/stat/search[@month='{GET['m']}' and @year='{GET['y']}']" db_file="stat.xml" orderby="`year` DESC, `month` DESC, `sum` DESC" template="list" length="20" />
+
+</table>
+</div>
+
+</body>
+&lt;/html&gt;
+</t:template>
+
+<t:template id="list">
+<tr>
+	<td><t:var name="search" /></td>
+	<td><t:var name="google" /></td>
+	<td><t:var name="yandex" /></td>
+	<td><t:var name="rambler" /></td>
+	<td><t:var name="sum" /></td>
+</tr>
+<t:last><tr><td colspan="5"><t:rule /></td></tr></t:last>
+</t:template>
+
+</t:templates>

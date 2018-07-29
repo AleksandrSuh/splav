@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">
+	<t:eval><t:statement>
+		if ($_SERVER['QUERY_STRING']=='') USER_VARS['LINK'] = '/';
+		else USER_VARS['LINK'] = $_SERVER['QUERY_STRING'];
+	</t:statement></t:eval>
+	<t:block link="{USER_VARS['LINK']}" template="main" />
+</t:template>
+
+<t:template id="main">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+&lt;html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>CMS - <t:var name="title" astext="yes" /></title>
+	<link type="text/css" rel="stylesheet" href="/cms/css/cms.css" />
+	<script type="text/javascript" src="/cms/js/ajax.js"> </script>
+	<script type="text/javascript" src="/cms/js/cms.js"> </script>
+	<script type="text/javascript" src="/cms/js/editor.js"> </script>
+	<script type="text/javascript" src="/cms/js/backend.js"> </script>
+	<script type="text/javascript" src="/cms/js/modaldlg.js"> </script>
+</head>
+
+<body>
+
+<table cellspacing="0" cellpadding="0" width="100%">
+<tr><td width="270px" valign="top" class="leftTd">
+	<t:block template="left" async="yes" view_strict="yes" />
+</td><td class="center" valign="top">
+<table class="top" cellspacing="0" cellpadding="0" width="100%">
+<tr><td width="14px"><img src="/cms/img/cms/top-left.jpg" /></td><td valign="top" class="topmain">
+
+<div class="tophelp">
+	<img src="/cms/img/cms/tophelp-left.jpg" style="float: left;" />
+	<img src="/cms/img/cms/tophelp-right.jpg" style="float: right" />
+	<div id="oHelp"><b>ArtGK CMS</b> v <t:eval><t:statement>echo CMS_VERSION;</t:statement></t:eval>;
+	Пользователь: <b><t:var user="user.name" /></b>
+	</div>
+</div>
+<br />
+<a href="javascript:bSave()" onmouseover="ShowHelp(this)" title="Сохранить" description="сохраняет изменения в текущей записи"><img src="/cms/img/toolicons/save.gif" width="20" height="20" /></a>
+<a href="javascript:bSave(true)" onmouseover="ShowHelp(this)" title="Сохранить и опубликовать" description="последовательно выполняет операции сохранения и публикации для текущей записи"><img src="/cms/img/toolicons/save-and-publish.gif" width="20" height="20" /></a>
+<a href="javascript:bInsert()" onmouseover="ShowHelp(this)" title="Вставить" description="создает новую запись, того же уровня что и текущая"><img src="/cms/img/cms/insert.gif" width="20" height="20" /></a>
+<a href="javascript:bDelete()" onmouseover="ShowHelp(this)" title="Удалить" description="удаляет текущую запись, включая все ее версии. Восстановление невозможно"><img src="/cms/img/cms/delete.gif" width="20" height="20" /></a>
+<a href="javascript:bSA('publish')" onmouseover="ShowHelp(this)" title="Опубликовать" description="текущая версия записи становится видимой посетителям сайта"><img src="/cms/img/cms/publish.gif" width="20" height="20" /></a>
+<a href="javascript:bSA('hide')" onmouseover="ShowHelp(this)" title="Скрыть" description="текущая запись скрывается для посетителей сайта, но остается видимой в системе администрирования"><img src="/cms/img/cms/hide.gif" width="20" height="20" /></a>
+<a href="javascript:bInsert(true)" onmouseover="ShowHelp(this)" title="Вставить дочернюю" description="создает новую запись, дочернюю от текущей"><img src="/cms/img/cms/insert-child.gif" width="20" height="20" /></a>
+<a href="javascript:bSA('publishChilds')" onmouseover="ShowHelp(this)" title="Опубликовать дочерние" description="публикует все дочерние записи любой вложенности"><img src="/cms/img/cms/publish-childs.gif" width="20" height="20" /></a>
+<a href="javascript:bDeleteChilds()" onmouseover="ShowHelp(this)" title="Удалить дочерние" description="безвозвратно удаляет все дочерние записи любой вложенности, включая все их версии"><img src="/cms/img/cms/delete-childs.gif" width="20" height="20" /></a>
+&lt;a href="/cms/import?<t:var name="link" />" onmouseover="ShowHelp(this)" title="Импорт" description="импорт данных из различных форматов (CSV, TXT, XML)"><img src="/cms/img/cms/insert-child.gif" width="20" height="20" />&lt;/a>
+<br />
+<a href="javascript:bSA('publishAll')" onmouseover="ShowHelp(this)" title="Опубликовать все" description="публикует все записи">опубликовать все</a>
+<a href="/cms/config" onmouseover="ShowHelp(this)" title="Конфигурация" description="переход на страницу редактирования основных настроек сайта">конфигурация</a>
+<a href="/cms/rights" onmouseover="ShowHelp(this)" title="Настройка прав" description="переход на страницу редактирования информации о пользователях, группах и правах пользоватлей">настройка прав</a>
+<a href="/cms/update" onmouseover="ShowHelp(this)" title="Проверить обновления" description="производит проверку наличия новых версий ArtGK CMS и установку при необходимости">обновить</a>
+<t:a href="/cms/email/?{VARS['link']}" onmouseover="ShowHelp(this)" title="E-mail рассылка" description="рассылка по электронной почте, указанной в пользовательских данных, или данных текущего раздела">рассылка</t:a>
+<a href="/cms/stat" onmouseover="ShowHelp(this)" title="Статистика" description="Просмотр статистики посещаемости сайта">статистика</a>
+<a href="/cms/cache/clear" onmouseover="ShowHelp(this)" title="Очистить кэш" description="очищает файловый кэш страниц сайта (бывает необходимо при изменении структуры сайта)">очистить кэш</a>
+<a href="/login" onmouseover="ShowHelp(this)" title="Вход" description="вход в режим администрирования под другим именем">вход</a>
+<a href="/logout" onmouseover="ShowHelp(this)" title="Выход" description="выход из режима администрирования">выход</a>
+<br />
+<div id="ToolBarEditor">
+<a href="javascript:cmsFormat('Cut')" onmouseover="ShowHelp(this)" title="Вырезать" description=""><img src="/cms/img/toolicons/cut.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Copy')" onmouseover="ShowHelp(this)" title="Копировать" description=""><img src="/cms/img/toolicons/copy.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Paste')" onmouseover="ShowHelp(this)" title="Вставить" description=""><img src="/cms/img/toolicons/paste.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('PasteText')" onmouseover="ShowHelp(this)" title="Вставить текст" description=""><img src="/cms/img/toolicons/pastetext.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Undo')" onmouseover="ShowHelp(this)" title="Отменить" description=""><img src="/cms/img/toolicons/undo.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Redo')" onmouseover="ShowHelp(this)" title="Повторить" description=""><img src="/cms/img/toolicons/redo.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Unlink')" onmouseover="ShowHelp(this)" title="Удалить ссылку" description=""><img src="/cms/img/toolicons/unlink.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('CreateLink')" onmouseover="ShowHelp(this)" title="Создать ссылку" description=""><img src="/cms/img/toolicons/createlink.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('InsertImage')" onmouseover="ShowHelp(this)" title="Вставить изображение" description=""><img src="/cms/img/toolicons/insertimage.gif" width="20" height="20" /></a>
+<a href="#" title="Быстрая загрузка изображения" description="" class="flash">
+<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
+	codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" 
+	width="20" height="20" id="fu" align="middle">
+<param name="allowScriptAccess" value="sameDomain" />
+<param name="allowFullScreen" value="false" />
+&lt;param name="movie" value="/cms/img/toolicons/fu14.swf?PHPSESSID=<t:var cookie="PHPSESSID" />" />
+<param name="quality" value="high" />
+<param name="bgcolor" value="#ffffff" />
+<param name="wmode" value="transparent" />
+&lt;embed src="/cms/img/toolicons/fu14.swf?PHPSESSID=<t:var cookie="PHPSESSID" />" quality="high" wmode="transparent" 
+	bgcolor="#ffffff" width="20" height="20" name="fu" align="middle" allowScriptAccess="sameDomain" 
+	allowFullScreen="false" type="application/x-shockwave-flash" 
+	pluginspage="http://www.macromedia.com/go/getflashplayer" />
+</object></a>
+<a href="javascript:cmsFormat('InsertTable')" onmouseover="ShowHelp(this)" title="Вставить таблицу" description=""><img src="/cms/img/toolicons/table.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('BlockFormat')" onmouseover="ShowHelp(this)" title="Дополнительное форматирование" description=""><img src="/cms/img/toolicons/blockformat.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('RemoveFormat')" onmouseover="ShowHelp(this)" title="Очистить формат" description=""><img src="/cms/img/toolicons/removeformat.gif" width="20" height="20" /></a>
+<a href="javascript:bMaximize()" onmouseover="ShowHelp(this)" title="Включить полноэкранный режим" description=""><img src="/cms/img/toolicons/maximize.gif" width="20" height="20" /></a>
+<br />
+<a href="javascript:cmsFormat('Html')" onmouseover="ShowHelp(this)" title="Исходный код" description="переключение между режимами исходного кода и форматирования"><img src="/cms/img/toolicons/html.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Bold')" onmouseover="ShowHelp(this)" title="Полужирный" description=""><img src="/cms/img/toolicons/bold.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Italic')" onmouseover="ShowHelp(this)" title="Курсив" description=""><img src="/cms/img/toolicons/italic.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Underline')" onmouseover="ShowHelp(this)" title="Подчеркнутый" description=""><img src="/cms/img/toolicons/underline.gif" width="20" height="20" /></a>
+<!--<a href="javascript:cmsFormat('StrikeThrough')" onmouseover="ShowHelp(this)" title="Перечеркнутый" description=""><img src="/cms/img/toolicons/strikethrough.gif" width="20" height="20" /></a>-->
+<a href="javascript:cmsFormat('SubScript')" onmouseover="ShowHelp(this)" title="Нижний индекс" description=""><img src="/cms/img/toolicons/sub.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('SuperScript')" onmouseover="ShowHelp(this)" title="Верхний индекс" description=""><img src="/cms/img/toolicons/sup.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('JustifyLeft')" onmouseover="ShowHelp(this)" title="Выравнивание по левому краю" description=""><img src="/cms/img/toolicons/justifyleft.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('JustifyCenter')" onmouseover="ShowHelp(this)" title="Выравнивание по центру" description=""><img src="/cms/img/toolicons/justifycenter.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('JustifyRight')" onmouseover="ShowHelp(this)" title="Выравнивание по правому краю" description=""><img src="/cms/img/toolicons/justifyright.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('JustifyFull')" onmouseover="ShowHelp(this)" title="Выравнивание по ширине" description=""><img src="/cms/img/toolicons/justifyfull.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('InsertUnorderedList')" onmouseover="ShowHelp(this)" title="Ненумерованый список" description=""><img src="/cms/img/toolicons/bulletlist.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('InsertOrderedList')" onmouseover="ShowHelp(this)" title="Нумерованый список" description=""><img src="/cms/img/toolicons/numberlist.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Indent')" onmouseover="ShowHelp(this)" title="Увеличить отступ" description=""><img src="/cms/img/toolicons/indent.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Outdent')" onmouseover="ShowHelp(this)" title="Уменьшить отступ" description=""><img src="/cms/img/toolicons/outdent.gif" width="20" height="20" /></a>
+</div>
+
+<br />
+
+	Id: <b><t:var name="id" /></b>;
+	Создатель: <b><t:user id="{VARS['owner_id']}" template="owner" /></b>;
+	<t:if expr="'{VARS['publish_time']}'=='0000-00-00 00:00:00'"><t:then><b style="color: #666666">Скрытая запись</b></t:then><t:else>Время публикации: <b><t:var name="publish_time" /></b></t:else></t:if>
+	<t:if expr="'{VARS['expire_time']}'!='0000-00-00 00:00:00'">Действительно до: <t:var name="expire_time" /></t:if>
+
+	<img src="/cms/img/1x1transparent.gif" width="680px" height="1px" />
+
+
+
+</td><td width="15px" align="right"><img src="/cms/img/cms/top-right.jpg" /></td></tr>
+</table>
+&amp;nbsp;
+<br /><br />
+
+&lt;input id="v_id" type="hidden" value="<t:var name="id" />" />
+&lt;input id="_parent_id" type="hidden" value="<t:var name="parent.id" />" />
+
+
+
+<div class="blockHead" onclick="BlockSwitch(this, 'mainData')">
+	<img src="/cms/img/cms/bh-left.jpg" style="float: left; margin-right: 3px" />
+	<img src="/cms/img/cms/bh-right.jpg" style="float: right" />
+	<span><t:if expr="'{COOKIE['b_mainData']}'=='none'"><t:then>+</t:then><t:else>&amp;ndash;</t:else></t:if></span>
+	Основные данные
+</div>
+<t:if expr="'{COOKIE['b_mainData']}'=='none'"><t:then>
+	<div class="block" id="mainData" style="display: none"> </div>
+</t:then><t:else>
+	<div class="block" id="mainData"><t:block template="mainData" /></div>
+</t:else></t:if>
+
+
+
+
+<div class="blockHead" onclick="BlockSwitch(this, 'assocData')">
+	<img src="/cms/img/cms/bh-left.jpg" style="float: left; margin-right: 3px" />
+	<img src="/cms/img/cms/bh-right.jpg" style="float: right" />
+	<span><t:if expr="'{COOKIE['b_assocData']}'=='block'"><t:then>&amp;ndash;</t:then><t:else>+</t:else></t:if></span>
+	Связки
+</div>
+<t:if expr="'{COOKIE['b_assocData']}'=='block'"><t:then>
+	<div class="block" id="assocData"><t:block template="assocData" async="yes" view_strict="yes" /></div>
+</t:then><t:else>
+	<div class="block" id="assocData" style="display: none"> </div>
+</t:else></t:if>
+
+
+
+<div class="blockHead" onclick="BlockSwitch(this, 'metaData')">
+	<img src="/cms/img/cms/bh-left.jpg" style="float: left; margin-right: 3px" />
+	<img src="/cms/img/cms/bh-right.jpg" style="float: right" />
+	<span><t:if expr="'{COOKIE['b_metaData']}'=='block'"><t:then>&amp;ndash;</t:then><t:else>+</t:else></t:if></span>
+	Мета-данные
+</div>
+<t:if expr="'{COOKIE['b_metaData']}'=='block'"><t:then>
+	<div class="block" id="metaData"><t:block template="metaData" /></div>
+</t:then><t:else>
+	<div class="block" id="metaData" style="display: none"> </div>
+</t:else></t:if>
+
+
+
+<div class="blockHead" onclick="BlockSwitch(this, 'rights')">
+	<img src="/cms/img/cms/bh-left.jpg" style="float: left; margin-right: 3px" />
+	<img src="/cms/img/cms/bh-right.jpg" style="float: right" />
+	<span><t:if expr="'{COOKIE['b_rights']}'=='block'"><t:then>&amp;ndash;</t:then><t:else>+</t:else></t:if></span>
+	Права
+</div>
+<t:if expr="'{COOKIE['b_rights']}'=='block'"><t:then>
+	<div class="block" id="rights"><t:block template="rights" /></div>
+</t:then><t:else>
+	<div class="block" id="rights" style="display: none"> </div>
+</t:else></t:if>
+
+
+
+<div class="blockHead" onclick="BlockSwitch(this, 'techData')">
+	<img src="/cms/img/cms/bh-left.jpg" style="float: left; margin-right: 3px" />
+	<img src="/cms/img/cms/bh-right.jpg" style="float: right" />
+	<span><t:if expr="'{COOKIE['b_techData']}'=='block'"><t:then>&amp;ndash;</t:then><t:else>+</t:else></t:if></span>
+	Технические данные
+</div>
+<t:if expr="'{COOKIE['b_techData']}'=='block'"><t:then>
+	<div class="block" id="techData"><t:block template="techData" /></div>
+</t:then><t:else>
+	<div class="block" id="techData" style="display: none"> </div>
+</t:else></t:if>
+
+
+
+	
+</td></tr>
+</table>
+
+</body>
+
+&lt;/html>
+</t:template>
+
+
+
+<t:template id="left">
+<t:setvar name="ID" value="{VARS['id']}" />
+<t:setvar name="PARENT_ID" value="{VARS['parent.id']}" />
+<div id="left" class="left">
+	<t:setvar name="map_{VARS['id']}" value="true" /><t:parent template="map_path"/>
+	<t:childrens id="NULL" template="map" page="1" />	
+</div>
+</t:template>
+
+
+
+<t:template id="map_path">
+	<t:setvar name="map_{VARS['id']}" value="true" />
+	<t:parent template="map_path"/>
+</t:template>
+
+<t:template id="map">
+<t:first>&lt;ul></t:first>
+<li>
+	<t:if expr="USER_VARS['map_{VARS['id']}']=='true'"><t:then><t:setvar name="MAP_EXPAND" value="true" /></t:then><t:else><t:setvar name="MAP_EXPAND" value="false" /></t:else></t:if>
+	<t:childrens template="map2" length="1" page="1" />
+	
+	<t:if expr="USER_VARS['MAP_ISEMPTY']=='false'"><t:else /><t:then>
+		<t:if expr="USER_VARS['MAP_INLENGTH']=='false'"><t:else /><t:then>
+			&lt;a href="/cms/list/?<t:var name="link"/>">+&lt;/a>
+		</t:then></t:if>
+		<t:if expr="USER_VARS['MAP_INLENGTH']=='true'"><t:else /><t:then>
+			&lt;a href="javascript:LoadLeft('<t:var name="link"/>')">
+				<t:if expr="USER_VARS['MAP_EXPAND']=='true'"><t:then>&amp;ndash;</t:then><t:else>+</t:else></t:if>
+			&lt;/a>
+		</t:then></t:if>
+	</t:then></t:if>
+	
+	<t:if expr="'{VARS['id']}'=='{USER_VARS['ID']}'"><t:then>&lt;strong></t:then><t:else /></t:if>
+	&lt;a href="/cms/?<t:var name="link"/>"
+	<t:if expr="'{VARS['publish_time']}'!='0000-00-00 00:00:00' &amp;&amp; ('{VARS['publish_time']}'&lt;'{VARS['version']}' || '{VARS['publish_time']}'&gt;date('Y-m-d H:i:s'))"><t:then> class="notPublished"</t:then><t:else /></t:if>
+	<t:if expr="'{VARS['publish_time']}'=='0000-00-00 00:00:00'"><t:then> class="hidden"</t:then><t:else /></t:if>
+	title="<t:var name="title" tovalue="yes" />"&gt;<t:var name="title" astext="yes" />&lt;/a&gt;
+	<t:if expr="'{VARS['id']}'=='{USER_VARS['ID']}'"><t:then>&lt;/strong></t:then><t:else /></t:if>
+
+	<t:if expr="USER_VARS['MAP_INLENGTH']=='true' &amp;&amp; USER_VARS['MAP_EXPAND']=='true'"><t:then><t:childrens template="map" page="1" /></t:then><t:else /></t:if>
+	<t:if expr="USER_VARS['MAP_INLENGTH']!='true' &amp;&amp; USER_VARS['MAP_EXPAND']=='true' &amp;&amp; '{VARS['id']}'=='{USER_VARS['PARENT_ID']}'"><t:then>
+		<t:block template="map" id="{USER_VARS['ID']}" />
+		<ul><li>&lt;a href="/cms/list/?<t:var name="link"/>">...&lt;/a></li></ul>
+	</t:then><t:else /></t:if>
+</li>
+<t:last>&lt;/ul></t:last>
+</t:template>
+
+<t:template id="map2">
+	<t:setvar name="MAP_ISEMPTY" value="false" />
+	<t:if expr="{CMS_MAP_LENGTH}&gt;={COUNT}"><t:then><t:setvar name="MAP_INLENGTH" value="true" /></t:then>
+		<t:else><t:setvar name="MAP_INLENGTH" value="false" /></t:else></t:if>
+	<t:empty><t:setvar name="MAP_ISEMPTY" value="true" /></t:empty>
+</t:template>
+
+<t:template id="owner">
+	<t:var name="user.name" />
+	<t:empty>Неизвестен</t:empty>
+</t:template>
+
+<t:template id="versions">
+	&lt;option value="<t:var name="version" />"&gt;<t:var name="version" />&lt;/option&gt;
+</t:template>
+
+<t:template id="assoc1">
+	<tr><td><b><t:var name="title" /></b></td></tr>
+	<t:setvar name="parent.assoc.id" value="{VARS['assoc.id']}" />
+	<t:assoc template="assoc2" />
+	<script type="text/javascript">bAddAssocSelector('<t:var name="id" />');</script>
+	&lt;form method="post" id="assoc1<t:var name="id"/>" action="/cms/action"><tr><td>&amp;nbsp;</td><td>
+		&lt;input name="_a[assoc1<t:var name="id"/>][action]" type="hidden" value="addAssoc"/&gt;
+		&lt;input name="_a[assoc1<t:var name="id"/>][id]" type="hidden" value="<t:var name="assoc.id"/>"/&gt;
+		<t:if expr="isset($_COOKIE['ASSOC']['{VARS['id']}'])"><t:then><t:setvar name="_id" value="{$_COOKIE['ASSOC']['{VARS['id']}']}" />&lt;select id="assoc1_<t:var name="id"/>" name="_a[assoc1<t:var name="id"/>][foreign_id]"><t:block id="{USER_VARS['_id']}" template="assoc3" />&lt;/select></t:then>
+		<t:else>&lt;select id="assoc1_<t:var name="id"/>" name="_a[assoc1<t:var name="id"/>][foreign_id]"><option>-- Выберите связку --</option><t:childrens template="assoc3" orderby="title" />&lt;/select></t:else></t:if>
+	</td><td>
+		&lt;input title="Lock" type="checkbox" onclick="Lock(this, '<t:var name="id"/>')"<t:if expr="isset($_COOKIE['ASSOC']['{VARS['id']}'])"><t:then> checked="checked"</t:then><t:else /></t:if> /&gt;
+		
+		<!--&lt;div class="button" style="width: 70px;" onclick="document.getElementById('assoc1<t:var name="id"/>').submit();">
+			<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+			<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+			Добавить
+		&lt;/div>-->
+	</td></tr>&lt;/form>
+</t:template>
+
+<t:template id="assoc2">
+	&lt;form method="post" id="assoc2<t:var name="id"/>" action="/cms/action"><tr><td>&amp;nbsp;</td><td><t:var name="title" /></td><td>
+		&lt;input name="_a[assoc2<t:var name="id"/>][action]" type="hidden" value="removeAssoc"/&gt;
+		&lt;input name="_a[assoc2<t:var name="id"/>][id]" type="hidden" value="<t:var name="parent.assoc.id"/>"/&gt;
+		&lt;input name="_a[assoc2<t:var name="id"/>][foreign_id]" type="hidden" value="<t:var name="id"/>"/&gt;
+		&lt;div class="button" style="width: 70px;" onclick="document.getElementById('assoc2<t:var name="id"/>').submit();">
+			<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+			<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+			Удалить
+		&lt;/div>
+	</td></tr>&lt;/form>
+	<t:setvar name="associates[]" value="{VARS['id']}" />
+</t:template>
+
+<t:template id="assoc3">
+	&lt;option value="<t:var name="id" />"&gt;<t:var name="title" />&lt;/option&gt;
+</t:template>
+
+<t:template id="assoc4">
+	<t:if expr="!in_array('{VARS['id']}', USER_VARS['associates'])"><t:then>
+	&lt;form method="post" id="assoc4<t:var name="id"/>" action="/cms/action"><tr><td><t:var name="title" /></td><td>
+		&lt;input name="_a[assoc4<t:var name="id"/>][action]" type="hidden" value="removeAssoc"/&gt;
+		&lt;input name="_a[assoc4<t:var name="id"/>][id]" type="hidden" value="<t:var name="assoc.id"/>"/&gt;
+		&lt;input name="_a[assoc4<t:var name="id"/>][foreign_id]" type="hidden" value="<t:var name="id"/>"/&gt;
+		&lt;div class="button" style="width: 70px;" onclick="document.getElementById('assoc4<t:var name="id"/>').submit();">
+			<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+			<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+			Удалить
+		&lt;/div>
+	</td></tr>&lt;/form>
+	</t:then><t:else /></t:if>
+</t:template>
+
+
+
+
+<t:template id="mainData">
+	<div class="vartitle">Заголовок</div>
+	&lt;input id="v_title" type="text" style="width: 100%" value="<t:var name="title" tovalue="yes" />" />
+	&lt;input id="titleToLink" type="checkbox"<t:if expr="'{VARS['link']}'!='/' and ('{DEFAULT_PARENT_ID}'=='' || '{VARS['parent.id']}'!='{DEFAULT_PARENT_ID}')"><t:then> checked="checked"</t:then><t:else /></t:if> /> Сформировать ссылку из заголовка
+
+	<div class="vartitle">Описание</div>
+	<div id="v_description" class="varvalue" contenteditable="true" onclick="window.cmsActiveBlock = this;" onfocus="window.cmsActiveBlock = this;"><t:var name="description" backend="yes" /></div>
+	<script type="text/javascript">window.cmsActiveBlock = document.getElementById('v_description');</script>
+
+	<div class="vartitle">Изображение</div>
+	<div id="v_image" class="varvalue" param_img="100x80" contenteditable="true" onclick="window.cmsActiveBlock = this;" onfocus="window.cmsActiveBlock = this;"><t:var name="image" img="100x80" backend="yes" /></div>
+
+	<div class="vartitle">Содержимое</div>
+	<div id="v_content" class="varvalue" contenteditable="true" onclick="window.cmsActiveBlock = this;" onfocus="window.cmsActiveBlock = this;" style="height: 200px;"><t:var name="content" backend="yes" /></div>
+
+	<div style="float: left; padding-right: 20px">
+		<div class="vartitle">Время создания</div>
+		&lt;input id="v_create_time" type="text" value="<t:var name="create_time" />" />
+	</div>
+
+	<div style="float: left; padding-right: 20px">
+		<div class="vartitle">Действительно до</div>
+		&lt;input id="v_expire_time" type="text" value="<t:var name="expire_time" />" />
+	</div>
+
+	<div style="float: left; padding-right: 20px">
+		<div class="vartitle">Приоритет</div>
+		&lt;input id="v_n" type="text" value="<t:var name="n" />" />
+	</div>
+
+	<div style="float: left; padding-right: 20px">
+		<div class="vartitle">Версия</div>
+		<select id="v_version"><t:rawquery sql="SELECT version FROM {TABLE_PAGE} WHERE id='{VARS['id']}' AND version!='{DB_PUBLIC_VERSION}'" template="versions" xpath="/db/root//page[@id='{VARS['id']}']|/db/root//back[@id='{VARS['id']}' and @version!='{DB_PUBLIC_VERSION}']" orderby="version DESC" /></select>
+	</div>
+	
+	<div class="button" style="width: 90px; margin-top: 38px" onclick="bBackup()">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Восстановить
+	</div>
+
+	<div id="external_vars">
+	<t:eval><t:statement><![CDATA[
+	//echo VARS['parent.external_class'];
+		if (isset(VARS['parent.external_class']) && VARS['parent.external_class']!='') {
+			foreach ($GLOBALS['EXTERNAL_CLASS']['{VARS['parent.external_class']}']['property'] as $property) {
+				echo '<div class="vartitle">'.$property['name'].'</div>';
+				switch ($property['type']) {
+					case 'text': echo '<textarea id="v_external.'.$property['name'].'" rows="5" wrap="off" style="width: 99%">'.(isset(VARS['external.'.$property['name']]) ? htmlspecialchars(VARS['external.'.$property['name']]) : '').'</textarea>'; break;
+					case 'mediumtext': echo '<textarea id="v_external.'.$property['name'].'" rows="20" wrap="off" style="width: 99%">'.(isset(VARS['external.'.$property['name']]) ? htmlspecialchars(VARS['external.'.$property['name']]) : '').'</textarea>'; break;
+					default: echo '<input id="v_external.'.$property['name'].'" type="text" value="'.(isset(VARS['external.'.$property['name']]) ? htmlspecialchars(VARS['external.'.$property['name']]) : '').'" style="width: 99%"/>'; break;
+				}
+			}
+		}
+	]]></t:statement></t:eval>
+	</div>
+</t:template>
+
+
+
+<t:template id="assocData">
+	
+<t:eval><t:statement><![CDATA[
+	USER_VARS['associates'] = array();
+]]></t:statement></t:eval>
+
+<table>
+	<t:assoc template="assoc1" />
+	<t:dassoc template="assoc4" />
+	<t:if expr="'{VARS['id']}'!=''">
+		<t:then>
+			&lt;form method="post" id="FormAssoc" action="/cms/action"><tr><td>Добавить</td><td>
+				&lt;input name="_a[assoc0<t:var name="id"/>][action]" type="hidden" value="addAssoc"/&gt;
+				&lt;input name="_a[assoc0<t:var name="id"/>][id]" type="hidden" value="<t:var name="id"/>"/&gt;
+				&lt;input type="text" id="foreign_id" name="_a[assoc0<t:var name="id"/>][foreign_id]" value=""/></td><td>
+				<div class="button" style="width: 70px; float: left; margin-right: 20px;" onclick="Select('FormAssoc', 'foreign_id', 'id');">
+					<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+					<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+					Выбрать
+				</div>
+				<div class="button" style="width: 70px; float: left; margin-right: 20px;" onclick="document.getElementById('FormAssoc').submit();">
+					<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+					<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+					Добавить
+				</div>
+			</td></tr>&lt;/form>
+		</t:then>
+		<t:else />
+	</t:if>
+</table>
+</t:template>
+
+
+
+<t:template id="metaData">
+	<div class="vartitle">Ключевые слова</div>
+	&lt;input id="v_keywords" type="text" style="width: 100%" value="<t:var name="keywords" tovalue="yes" />" />
+	
+	<div class="vartitle">Ссылка</div>
+	&lt;input id="v_link" type="text" style="width: 100%" value="<t:var name="link" tovalue="yes" />" />
+	
+	<div style="float: right">
+		<div class="vartitle">Заголовочная информация</div>&lt;!--<t:var name="head" />-->&lt;!--<t:var name="description" />-->
+		&lt;textarea id="v_head" cols="60" rows="13"><t:head />&lt;/textarea>
+	</div>
+
+	<div>
+		<div class="vartitle">Кэшировать</div><div style="display: none"><t:var name="cash" /> </div>
+		&lt;input id="cash_yes" name="cash" type="radio" value="yes"<t:if expr="'{VARS['cash']}'=='yes'"><t:then> checked="checked"</t:then><t:else /></t:if>/&gt; Да
+		&lt;input id="cash_no" name="cash" type="radio" value="no"<t:if expr="'{VARS['cash']}'=='no'"><t:then> checked="checked"</t:then><t:else /></t:if>/&gt; Нет
+	</div>
+
+	<div class="button" style="width: 150px" onclick="bSaveToChilds('cash')">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Применить к дочерним
+	</div>
+
+	<div>
+		<div class="vartitle">Ограниченный доступ</div><div style="display: none"><t:var name="data_only" /> </div>
+		&lt;input id="data_only_yes" name="data_only" type="radio" value="yes"<t:if expr="'{VARS['data_only']}'=='yes'"><t:then> checked="checked"</t:then><t:else /></t:if>/&gt; Да
+		&lt;input id="data_only_no" name="data_only" type="radio" value="no"<t:if expr="'{VARS['data_only']}'=='no'"><t:then> checked="checked"</t:then><t:else /></t:if>/&gt; Нет
+		&lt;input id="data_only_childs" name="data_only" type="radio" value="childs"<t:if expr="'{VARS['data_only']}'=='childs'"><t:then> checked="checked"</t:then><t:else /></t:if>/&gt; Да (вместе с дочерними)
+	</div>
+
+	<div class="button" style="width: 150px" onclick="bSaveToChilds('data_only')">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Применить к дочерним
+	</div>
+
+	<div>
+		<div class="vartitle">Использовать содержимое в<br />заголовочной информации</div><div style="display: none"><t:var name="use_content_in_head" /> </div>
+		&lt;input id="use_content_in_head_path" name="use_content_in_head" type="radio" value="path"<t:if expr="'{VARS['use_content_in_head']}'=='path'"><t:then> checked="checked"</t:then><t:else /></t:if>/&gt; Да (путь в заголовке)
+		&lt;input id="use_content_in_head_true" name="use_content_in_head" type="radio" value="true"<t:if expr="'{VARS['use_content_in_head']}'=='true'"><t:then> checked="checked"</t:then><t:else /></t:if>/&gt; Да
+		&lt;input id="use_content_in_head_false" name="use_content_in_head" type="radio" value="false"<t:if expr="'{VARS['use_content_in_head']}'=='false'"><t:then> checked="checked"</t:then><t:else /></t:if>/&gt; Нет
+	</div>
+
+	<div class="button" style="width: 150px" onclick="bSaveToChilds('use_content_in_head')">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Применить к дочерним
+	</div>
+</t:template>
+
+
+
+<t:template id="rights">
+<t:eval><t:statement>
+	USER_VARS['USER_OPTS'] = array();
+	USER_VARS['GROUP_OPTS'] = array();
+	USER_VARS['LINK'] = '{VARS['link']}';
+	USER_VARS['USERS'] = array();
+</t:statement></t:eval>
+<t:users template="rights_users_list" />
+<t:rawquery sql="SELECT * FROM {TABLE_GROUP}" xpath="/db/group" template="rights_groups_list" />
+
+&lt;table cellpadding="0" cellspacing="3" border="0" width="100%"&gt;
+<tr><th>Id</th><th>Пользователь/группа</th><th>Разрешено</th><th>Запрещено</th><th>Действия</th></tr>
+<t:rawquery sql="SELECT * FROM {TABLE_RIGHTS} WHERE `link`='{VARS['link']}'" xpath="/db/rights/right" template="rights_list" />
+&lt;form method="post" action="/cms/action" id="rights2<t:var name="id" />">
+&lt;input type="hidden" name="_a[0][link]" value="<t:var name="link" />" /&gt;
+<input type="hidden" name="_a[0][action]" /><tr><td>&amp;nbsp;</td>
+<td style="white-space: nowrap;">
+	
+<t:eval><t:statement><![CDATA[
+	USER_VARS['USER_SELECT'] = '<select name="_a[0][ug_id]">';
+	foreach (USER_VARS['USERS'] as $id=>$name) USER_VARS['USER_SELECT'] .= "<option value=\"$id\">$name</option>";
+	USER_VARS['USER_SELECT'] .= '</select>';
+	USER_VARS['USER_SELECT'] = htmlspecialchars(USER_VARS['USER_SELECT']);
+]]></t:statement></t:eval>
+
+<t:eval><t:statement><![CDATA[
+	USER_VARS['GROUP_SELECT'] = '<select name="_a[0][ug_id]">';
+	foreach (USER_VARS['GROUPS'] as $id=>$name) USER_VARS['GROUP_SELECT'] .= "<option value=\"$id\">$name</option>";
+	USER_VARS['GROUP_SELECT'] .= '</select>';
+	USER_VARS['GROUP_SELECT'] = htmlspecialchars(USER_VARS['GROUP_SELECT']);
+]]></t:statement></t:eval>
+
+<span id="ug_id_select"><t:var name="USER_SELECT" /></span>
+
+<t:eval><t:statement>
+	USER_VARS['USER_SELECT'] = htmlspecialchars(USER_VARS['USER_SELECT']);
+	USER_VARS['GROUP_SELECT'] = htmlspecialchars(USER_VARS['GROUP_SELECT']);
+</t:statement></t:eval>
+
+&lt;input type="radio" name="_a[0][is_group]" onclick="document.getElementById('ug_id_select').innerHTML = '<t:var name="USER_SELECT" />';" value="false" checked="checked" /&gt; пользователь &lt;input type="radio" name="_a[0][is_group]" onclick="document.getElementById('ug_id_select').innerHTML = '<t:var name="GROUP_SELECT" />';" value="true" /&gt; группа</td>
+<td>&lt;input type="text" size="4" name="_a[0][allow]" /&gt;</td>
+<td>&lt;input type="text" size="4" name="_a[0][disallow]" /&gt;</td>
+<td>
+	&lt;div class="button" style="float: left; width: 100px; margin-right: 20px; text-align: center;" onclick="var f = document.getElementById('rights2<t:var name="id" />'); f.elements['_a[0][action]'].value = 'rightsSave'; f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Добавить
+	&lt;/div>
+</td>
+</tr>&lt;/form>
+&lt;/table&gt;
+<p>
+<b>Основные права:</b><br />
+0 - нет прав<br />
+1 - администратор<br />
+2 - модератор<br />
+4 - гость<br />
+</p>
+<p><b>Дополнительные права:</b><br />
+8 - право гостя на сохранение<br />
+16 - право гостя на сохранение+публикацию<br />
+</p>
+</t:template>
+
+<t:template id="rights_users_list">
+<t:eval><t:statement>
+	USER_VARS['USERS'][VARS['user.id']] = VARS['user.name'];
+</t:statement></t:eval>
+</t:template>
+
+<t:template id="rights_groups_list">
+<t:eval><t:statement>
+	USER_VARS['GROUPS'][VARS['id']] = VARS['name'];
+</t:statement></t:eval>
+</t:template>
+
+<t:template id="rights_list">
+&lt;form method="post" action="/cms/action" id="rights<t:var name="id" />">
+&lt;input type="hidden" name="_a[0][link]" value="<t:var name="LINK" />" /&gt;
+<input type="hidden" name="_a[0][action]" />&lt;input type="hidden" name="_a[0][id]" value="<t:var name="id" />" /&gt;<tr>
+<td><t:var name="id" /></td>
+<td style="white-space: nowrap;">
+
+<t:eval><t:statement><![CDATA[
+	USER_VARS['USER_SELECT'] = '<select name="_a[0][ug_id]">';
+	foreach (USER_VARS['USERS'] as $id=>$name) USER_VARS['USER_SELECT'] .= "<option value=\"$id\""
+		.($id=='{VARS['ug_id']}' ? ' selected="selected"' : '').">$name</option>";
+	USER_VARS['USER_SELECT'] .= '</select>';
+	USER_VARS['USER_SELECT'] = htmlspecialchars(USER_VARS['USER_SELECT']);
+]]></t:statement></t:eval>
+
+<t:eval><t:statement><![CDATA[
+	USER_VARS['GROUP_SELECT'] = '<select name="_a[0][ug_id]">';
+	foreach (USER_VARS['GROUPS'] as $id=>$name) USER_VARS['GROUP_SELECT'] .= "<option value=\"$id\""
+		.($id=='{VARS['ug_id']}' ? ' selected="selected"' : '').">$name</option>";
+	USER_VARS['GROUP_SELECT'] .= '</select>';
+	USER_VARS['GROUP_SELECT'] = htmlspecialchars(USER_VARS['GROUP_SELECT']);
+]]></t:statement></t:eval>
+
+&lt;span id="ug_id_select<t:var name="id" />"><t:if expr="'{VARS['is_group']}'=='false'">
+	<t:then><t:var name="USER_SELECT" /></t:then>
+	<t:else><t:var name="GROUP_SELECT" /></t:else>
+</t:if>&lt;/span>
+
+<t:eval><t:statement>
+	USER_VARS['USER_SELECT'] = htmlspecialchars(USER_VARS['USER_SELECT']);
+	USER_VARS['GROUP_SELECT'] = htmlspecialchars(USER_VARS['GROUP_SELECT']);
+</t:statement></t:eval>
+<!--&lt;input type="text" name="_a[0][ug_id]" value="<t:var name="ug_id" />" /&gt;-->
+&lt;input type="radio" name="_a[0][is_group]" onclick="document.getElementById('ug_id_select<t:var name="id" />').innerHTML = '<t:var name="USER_SELECT" />';" value="false"<t:if expr="'{VARS['is_group']}'=='false'"><t:then> checked="checked"</t:then><t:else /></t:if> /&gt; пользователь &lt;input type="radio" name="_a[0][is_group]" onclick="document.getElementById('ug_id_select<t:var name="id" />').innerHTML = '<t:var name="GROUP_SELECT" />';" value="true"<t:if expr="'{VARS['is_group']}'=='true'"><t:then> checked="checked"</t:then><t:else /></t:if> /&gt; группа</td>
+<td>&lt;input type="text" size="4" name="_a[0][allow]" value="<t:var name="allow" />" /&gt;</td>
+<td>&lt;input type="text" size="4" name="_a[0][disallow]" value="<t:var name="disallow" />" /&gt;</td>
+<td>
+	&lt;div class="button" style="float: left; width: 100px; margin-right: 20px; text-align: center;" onclick="var f = document.getElementById('rights<t:var name="id" />'); f.elements['_a[0][action]'].value = 'rightsSave'; f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Сохранить
+	&lt;/div>
+	&lt;div class="button" style="float: left; width: 100px; text-align: center;" onclick="var f = document.getElementById('rights<t:var name="id" />'); f.elements['_a[0][action]'].value = 'rightsDelete'; f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Удалить
+	&lt;/div>
+</td>
+</tr>&lt;/form>
+</t:template>
+
+
+
+<t:template id="techData">
+	
+<t:eval><t:statement><![CDATA[
+	USER_VARS['template_src_opts'] = '';
+	USER_VARS['childrens_template_src_opts'] = '';
+	foreach (glob(DIR_ROOT.'/templates/*.xml') as $filename) {
+		$template = basename($filename);
+		USER_VARS['template_src_opts'] .= '<option'.(isset(VARS['template_src']) && $template==VARS['template_src'] ? ' selected="selected"' : '').' value="'.$template.'">'.$template.'</option>';
+		USER_VARS['childrens_template_src_opts'] .= '<option'.(isset(VARS['childrens_template_src']) && $template==VARS['childrens_template_src'] ? ' selected="selected"' : '').' value="'.$template.'">'.$template.'</option>';
+	}
+	foreach (glob(DIR_ROOT.'/templates/*', GLOB_ONLYDIR) as $dirname) {
+		$template_dir = basename($dirname);
+		USER_VARS['template_src_opts'] .= '<optgroup label="'.$template_dir.'">';
+		USER_VARS['childrens_template_src_opts'] .= '<optgroup label="'.$template_dir.'">';
+		foreach (glob(DIR_ROOT.'/templates/'.$template_dir.'/*.xml') as $filename) {
+			$template = $template_dir.'/'.basename($filename);
+			USER_VARS['template_src_opts'] .= '<option'.(isset(VARS['template_src']) && $template==VARS['template_src'] ? ' selected="selected"' : '').' value="'.$template.'">'.$template.'</option>';
+			USER_VARS['childrens_template_src_opts'] .= '<option'.(isset(VARS['childrens_template_src']) && $template==VARS['childrens_template_src'] ? ' selected="selected"' : '').' value="'.$template.'">'.$template.'</option>';
+		}
+		USER_VARS['template_src_opts'] .= '</optgroup>';
+		USER_VARS['childrens_template_src_opts'] .= '</optgroup>';
+	}
+]]></t:statement></t:eval>
+	
+	<div style="float: left; margin-right: 20px">
+		<div class="vartitle">Корневой шаблон</div><div style="display: none"><t:var name="template_src" /> </div>
+		<select id="v_template_src"><option value=''>По умолчанию</option><t:var name="template_src_opts" /></select>
+	</div>
+	
+	<div class="button" style="float: left; margin-right: 20px; width: 120px; margin-top: 38px;" onclick="TPDlg(document.getElementById('v_template_src').value)">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Свойства шаблона
+	</div>
+	
+	<div style="float: left; margin-right: 20px">
+		<div class="vartitle">Внешний класс</div><div style="display: none"><t:var name="external_class" /> </div>
+		<select id="v_external_class"><option value=''></option><t:eval><t:statement><![CDATA[foreach ($GLOBALS['EXTERNAL_CLASS'] as $className=>$class) echo '<option value="'.$className.'"'.(isset(VARS['external_class']) && VARS['external_class']==$className ? ' selected="selected"' : '').'>'.$className.'</option>';]]></t:statement></t:eval></select>
+	</div>
+
+	<div style="clear: both">
+	</div>
+	
+	<div style="float: left; margin-right: 20px">
+		<div class="vartitle">Шаблон</div><div style="display: none"><t:var name="childrens_template_src" /> </div>
+		<select id="v_childrens_template_src"><option value=''>По умолчанию</option><t:var name="childrens_template_src_opts" /></select>
+	</div>
+	
+	<div class="button" style="float: left; margin-right: 20px; width: 120px; margin-top: 38px" onclick="TPDlg(document.getElementById('v_childrens_template_src').value)">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Свойства шаблона
+	</div>
+	
+	<div style="float: left; margin-right: 20px">
+		<div class="vartitle">Id родителя</div>
+		<form id="formParentId">&lt;input id="v_parent_id" name="parent_id" type="text" value="<t:var name="parent.id" />" /></form>
+	</div>
+	<div class="button" style="width: 70px; float: left; margin-right: 20px; margin-top: 38px" onclick="Select('formParentId', 'parent_id', 'id');">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		Выбрать
+	</div>
+</t:template>
+
+
+</t:templates>

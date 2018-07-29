@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+	
+<t:template id="index">
+	<t:eval><t:statement>
+		if ($_SERVER['QUERY_STRING']=='') USER_VARS['LINK'] = '/';
+		else USER_VARS['LINK'] = $_SERVER['QUERY_STRING'];
+	</t:statement></t:eval>
+	<t:block link="{USER_VARS['LINK']}" template="main" />
+</t:template>
+
+<t:template id="main">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>CMS Карта - <t:var name="title" astext="yes" /></title>
+	<link type="text/css" rel="stylesheet" href="/cms/css/cms.css" />
+</head>
+<body>
+	<t:setvar name="map2_{VARS['id']}" value="true"><t:var name="id"/></t:setvar>
+	<t:parent template="map2_path"/> &amp;raquo; <b> <t:var name="title"/></b><br/>
+	<t:childrens parent_id="NULL" template="map2"/><br />
+</body>
+&lt;/html&gt;
+</t:template>
+
+<t:template id="map2_path">
+<t:setvar name="map2_{VARS['id']}" value="true" />
+<t:parent template="map2_path"/> &amp;raquo; &lt;a href="/cms/map?<t:var name="link"/>" onclick="window.opener.SelectReturn('<t:var name="id" />', '<t:var name="link" />')"&gt;<t:var name="title"/> (<t:var name="id" />)&lt;/a&gt;
+</t:template>
+
+<t:template id="map2">
+<t:first>&lt;ul&gt;</t:first>
+<li>&lt;a href="/cms/map?<t:var name="link"/>" onclick="window.opener.SelectReturn('<t:var name="id" />', '<t:var name="link" />');"&gt;<t:var name="title"/> (<t:var name="id" />)&lt;/a&gt;<br/></li>
+	<t:if expr="USER_VARS['map2_{VARS['id']}']"><t:then><t:childrens template="map2"/></t:then><t:else /></t:if>
+<t:last>&lt;/ul&gt;</t:last>
+</t:template>
+</t:templates>

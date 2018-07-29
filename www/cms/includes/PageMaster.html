@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CMS Мастер создания раздела</title>
+<script type="text/javascript" src="/cms/js/ajax.js"></script>
+<script type="text/javascript" src="/cms/js/cms.js"></script>
+<script type="text/javascript">
+function InstallTemplate(sUrl) {
+	var fOnLoad = function(text) {window.location = window.location.pathname+'?'+text;}
+	var fOnError = function() {alert('Не удалось загрузить файл шаблона');}
+	loader.SendRequest('/cms/templates/upload?url='+encodeURIComponent(sUrl), null, 'GET', fOnLoad, fOnError);
+}
+function ShowGallery(o) {
+	window.open(o.getAttribute('href'), '_blank', 'menubar=0,status=0,resizable=1,scrollbars=1,width=600,height=400');
+	return false;
+}
+</script>
+<link type="text/css" rel="stylesheet" href="/cms/css/cms.css" />
+<style type="text/css">
+td {
+	border: 1px solid LightGrey;
+	padding: 3px;
+}
+table {
+	border: 1px solid LightGrey;
+}
+th {
+	background-color: #d5f0fd;
+	color: #0079a3;
+}
+a {
+	text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+<img src="/cms/img/cms/left.jpg" width="80" style="float: left;" />
+
+<div class="tophelp" style="width: 240px;">
+	<img src="/cms/img/cms/tophelp-left.jpg" style="float: left;" />
+	<img src="/cms/img/cms/tophelp-right.jpg" style="float: right" />
+	<div id="oHelp"><b>Создание раздела</b> на странице
+	<script type="text/javascript">
+		document.write('<a href="'+window.opener.location.pathname+'">'+window.opener.document.title+'</a> *');
+	</script>
+	</div>
+</div>&nbsp;
+
+<form id="FormPageMaster" style="clear: both;"><table cellpadding="0" cellspacing="3" width="100%">
+<tr><td>Источник шаблона</td><td>
+<script type="text/javascript">
+var s = window.location.search ? window.location.search.substr(1) : '';
+var req = loader.initXMLHTTPRequest();
+req.open('GET', '/cms/ajax/ins?i=template_opts&s='+s, false);
+req.send(null);
+document.writeln('<select name="src" id="SelectTemplateSrc"><option value="">По умолчанию</option>'
+	+req.responseText+'</select>');
+</script>
+<br /><a href="#tp" onclick="TPDlg(document.getElementById('SelectTemplateSrc').value); return false;">[свойства шаблона]</a>
+<br /><a href="/cms/templates/gallery?c=page" target="_blank" onclick="return ShowGallery(this);">[загрузить из галереи]</a>
+</td></tr>
+<tr><td>Корневой шаблон</td><td><input type="checkbox" name="root" /></td></tr>
+<tr><td colspan="2">* Установка раздела приведет к очистке содержимого данной страницы</td></tr>
+<tr><td colspan="2" align="center">
+		<div class="button" style="width: 100px; margin-right: 20px; text-align: center;" onclick="var f = document.getElementById('FormPageMaster'); window.opener.PageMasterReturn(f.elements['src'].value, f.elements['root'].checked); window.close(); return false;">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		OK
+	</div>
+</td></tr>
+</table></form>
+</body>
+</html>

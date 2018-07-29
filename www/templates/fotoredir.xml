@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">	
+		<t:childrens template="redir" length="1" page="1" orderby="?" />
+</t:template>
+
+
+<t:template id="redir">
+		<script>window.location='<t:var name="link" />'; </script>
+</t:template>
+
+
+
+</t:templates>

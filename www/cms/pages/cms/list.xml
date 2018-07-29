@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">
+	<t:eval><t:statement>
+		if ($_SERVER['QUERY_STRING']=='') USER_VARS['LINK'] = '/';
+		else USER_VARS['LINK'] = $_SERVER['QUERY_STRING'];
+	</t:statement></t:eval>
+	<t:block link="{USER_VARS['LINK']}" template="main" />
+</t:template>
+
+<t:template id="main">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+&lt;html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>CMS - <t:var name="title" astext="yes" /></title>
+	<link type="text/css" rel="stylesheet" href="/cms/css/cms.css" />
+	<script type="text/javascript" src="/cms/js/ajax.js"> </script>
+	<script type="text/javascript" src="/cms/js/cms.js"> </script>
+	<script type="text/javascript" src="/cms/js/editor.js"> </script>
+	<script type="text/javascript" src="/cms/js/backend.js"> </script>
+	<script type="text/javascript" src="/cms/js/modaldlg.js"> </script>
+</head>
+
+<body>
+
+<table cellspacing="0" cellpadding="0" width="100%">
+<tr><td width="270px" valign="top" class="leftTd">
+	<t:block template="left@cms/pages/cms/index.xml" async="yes" view_strict="yes" />
+</td><td class="center" valign="top">
+<table class="top" cellspacing="0" cellpadding="0" width="100%">
+<tr><td width="14px"><img src="/cms/img/cms/top-left.jpg" width="14px" height="75px" /></td><td valign="top" class="topmain" style="background-image: url('/cms/img/cms/top-center2.jpg');">
+
+<div class="tophelp">
+	<img src="/cms/img/cms/tophelp-left.jpg" style="float: left;" />
+	<img src="/cms/img/cms/tophelp-right.jpg" style="float: right" />
+	<div id="oHelp"><b>ArtGK CMS</b> v <t:eval><t:statement>echo CMS_VERSION;</t:statement></t:eval>;
+	Пользователь: <b><t:var user="user.name" /></b>
+	</div>
+</div>
+<br />
+<a href="javascript:bSave()" onmouseover="ShowHelp(this)" title="Сохранить" description="сохраняет изменения в текущей записи"><img src="/cms/img/toolicons/save.gif" width="20" height="20" /></a>
+<a href="javascript:bSave(true)" onmouseover="ShowHelp(this)" title="Сохранить и опубликовать" description="последовательно выполняет операции сохранения и публикации для текущей записи"><img src="/cms/img/toolicons/save-and-publish.gif" width="20" height="20" /></a>
+<a href="javascript:bInsert()" onmouseover="ShowHelp(this)" title="Вставить" description="создает новую запись, того же уровня что и текущая"><img src="/cms/img/cms/insert.gif" width="20" height="20" /></a>
+<a href="javascript:bDelete()" onmouseover="ShowHelp(this)" title="Удалить" description="удаляет текущую запись, включая все ее версии. Восстановление невозможно"><img src="/cms/img/cms/delete.gif" width="20" height="20" /></a>
+<a href="javascript:bSA('publish')" onmouseover="ShowHelp(this)" title="Опубликовать" description="текущая версия записи становится видимой посетителям сайта"><img src="/cms/img/cms/publish.gif" width="20" height="20" /></a>
+<a href="javascript:bSA('hide')" onmouseover="ShowHelp(this)" title="Скрыть" description="текущая запись скрывается для посетителей сайта, но остается видимой в системе администрирования"><img src="/cms/img/cms/hide.gif" width="20" height="20" /></a>
+<a href="javascript:bInsert(true)" onmouseover="ShowHelp(this)" title="Вставить дочернюю" description="создает новую запись, дочернюю от текущей"><img src="/cms/img/cms/insert-child.gif" width="20" height="20" /></a>
+<a href="javascript:bSA('publishChilds')" onmouseover="ShowHelp(this)" title="Опубликовать дочерние" description="публикует все дочерние записи любой вложенности"><img src="/cms/img/cms/publish-childs.gif" width="20" height="20" /></a>
+<a href="javascript:bDeleteChilds()" onmouseover="ShowHelp(this)" title="Удалить дочерние" description="безвозвратно удаляет все дочерние записи любой вложенности, включая все их версии"><img src="/cms/img/cms/delete-childs.gif" width="20" height="20" /></a>
+&lt;a href="/cms/import?<t:var name="link" />" onmouseover="ShowHelp(this)" title="Импорт" description="импорт данных из различных форматов (CSV, TXT, XML)"><img src="/cms/img/cms/insert-child.gif" width="20" height="20" />&lt;/a>
+<br />
+<a href="javascript:bSA('publishAll')" onmouseover="ShowHelp(this)" title="Опубликовать все" description="публикует все записи">опубликовать все</a>
+<a href="/cms/config" onmouseover="ShowHelp(this)" title="Конфигурация" description="переход на страницу редактирования основных настроек сайта">конфигурация</a>
+<a href="/cms/rights" onmouseover="ShowHelp(this)" title="Настройка прав" description="переход на страницу редактирования информации о пользователях, группах и правах пользоватлей">настройка прав</a>
+<a href="/cms/update" onmouseover="ShowHelp(this)" title="Проверить обновления" description="производит проверку наличия новых версий ArtGK CMS и установку при необходимости">обновить</a>
+<t:a href="/cms/email/?{VARS['link']}" onmouseover="ShowHelp(this)" title="E-mail рассылка" description="рассылка по электронной почте, указанной в пользовательских данных, или данных текущего раздела">рассылка</t:a>
+<a href="/cms/stat" onmouseover="ShowHelp(this)" title="Статистика" description="Просмотр статистики посещаемости сайта">статистика</a>
+<a href="/cms/cache/clear" onmouseover="ShowHelp(this)" title="Очистить кэш" description="очищает файловый кэш страниц сайта (бывает необходимо при изменении структуры сайта)">очистить кэш</a>
+<a href="/login" onmouseover="ShowHelp(this)" title="Вход" description="вход в режим администрирования под другим именем">вход</a>
+<a href="/logout" onmouseover="ShowHelp(this)" title="Выход" description="выход из режима администрирования">выход</a>
+<br />
+
+	<img src="/cms/img/1x1transparent.gif" width="680px" height="1px" />
+
+
+
+</td><td width="15px" align="right"><img src="/cms/img/cms/top-right.jpg" width="15px" height="75px" /></td></tr>
+</table>
+&amp;nbsp;
+<br /><br />
+
+<t:childrens template="list" length="10" />
+
+	
+</td></tr>
+</table>
+
+</body>
+
+&lt;/html>
+</t:template>
+
+
+
+<t:template id="list">
+<t:first>
+	<div><t:rule /></div>
+	<div class="vartitle"><t:var name="parent.title" /></div>
+	<br /><br />
+</t:first>
+
+
+<t:setvar name="DomId" value="i{UID}" />
+&lt;div class="list" id="<t:var name="DomId" />">
+	<div class="list_form">
+		&lt;img alt="Удалить" title="Удалить" src="/cms/img/cms/list_del.jpg" onclick="blDelete('<t:var name="DomId" />', '<t:var name="id" />', '<t:var name="title" tovalue="yes" />')" />
+	</div>
+	<b>&lt;a href="/cms/?<t:var name="link" />"><t:var name="title" />&lt;/a></b><br />
+	последнее обновление: <t:var name="publish_time" />
+&lt;/div>
+
+
+<t:last>
+	<div class="vartitle"><t:var name="parent.title" /></div>
+	<br />
+	<div><t:rule /></div>
+	<br /><br />
+</t:last>
+</t:template>
+
+
+</t:templates>

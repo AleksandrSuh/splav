@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">
+<div id="bodyContainer">
+	<t:block template="headblock@root.xml" />
+	<div id="mainBody">
+		<div id="mainContent">
+			<h2><div class="ic_art"><span class="botbord"><t:var name="title" editable="yes" /></span></div></h2>
+			<t:var name="content" editable="yes" />
+		</div>
+		<t:block template="songsblock@root.xml" />
+	</div>
+</div>
+</t:template>
+
+<t:template id="title_path">
+	<t:var name="title" astext="yes" /> <t:parent template="title_path2" />
+</t:template>
+
+<t:template id="title_path2">
+	- <t:var name="title" astext="yes" /> <t:parent template="title_path2" />
+</t:template>
+
+</t:templates>

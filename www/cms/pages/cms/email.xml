@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">
+	<t:block link="{SERVER['QUERY_STRING']}" template="main" />
+</t:template>
+
+<t:template id="main">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>CMS E-mail рассылка</title>
+<link type="text/css" rel="stylesheet" href="/cms/css/cms.css" />
+<style type="text/css">
+body {
+	margin: 0px 20px;
+	background-image: url('/cms/img/cms/left.jpg');
+	background-repeat:no-repeat;
+}
+td {
+	line-height: 20px;
+	padding: 3px;
+}
+table {
+	border: 1px solid LightGrey;
+}
+th {
+	background-color: #d5f0fd;
+	color: #0079a3;
+	height: 24px;
+}
+</style>
+<script type="text/javascript" src="/cms/js/ajax.js"> </script>
+<script type="text/javascript" src="/cms/js/modaldlg.js"> </script>
+<script type="text/javascript" src="/cms/js/cms.js"> </script>
+<script type="text/javascript" src="/cms/js/editor.js"> </script>
+<script type="text/javascript" src="/cms/js/backend.js"> </script>
+<script type="text/javascript">
+function selecttype(id) {
+	var user = document.getElementById('user');
+	var childrens = document.getElementById('childrens');
+	var sql = document.getElementById('sql');
+
+	user.style.display = user.id==id ? '' : 'none';
+	childrens.style.display = childrens.id==id ? '' : 'none';
+	sql.style.display = sql.id==id ? '' : 'none';
+}
+</script>
+</head>
+<body>
+			
+<div class="tophelp">
+	<img src="/cms/img/cms/tophelp-left.jpg" style="float: left;" />
+	<img src="/cms/img/cms/tophelp-right.jpg" style="float: right" />
+	<div id="oHelp"><b>E-mail рассылка</b> - <t:var name="title" /></div>
+</div>&amp;nbsp;
+
+
+<form id="FormEmail" method="post" style="margin-top: 150px; width: 500px;">
+
+<t:if expr="'{POST['type']}'!=''"><t:then>
+<t:block template="externals1" />
+<t:childrens deep="1" template="externals1" length="1" page="1" />
+<t:childrens deep="2" template="externals1" length="1" page="1" />
+<t:eval><![CDATA[
+
+USER_VARS['count'] = 0;
+
+$rv = 'title,keywords,description,image,content';
+$ec = USER_VARS['external_classes'][$_POST['deep']-1];
+
+if ($ec!='') foreach ($GLOBALS['EXTERNAL_CLASS'][$ec]['property'] as $property) $rv .= ',external.'.$property['name'];
+
+$old = $GLOBALS['DBC']->usePublicVersion(true);
+
+switch ('{POST['type']}') {
+	case 'user':
+		$_POST['field'] = 'user.email';
+		echo Build('xml:<t:users template="email@cms/pages/cms/email.xml" required_vars="'
+			.$rv.'" group_id="'.@$_POST['group'].'" />');
+		break;
+	case 'childrens':
+		echo Build('xml:<t:childrens id="{VARS['id']}" template="email@cms/pages/cms/email.xml" deep="'
+			.$_POST['deep'].';'.$ec.'" required_vars="'.$rv.'" />');
+		break;
+	case 'adv':
+		echo Build('xml:<t:select sql="'.$_POST['sql']
+			.'" template="email@cms/pages/cms/email.xml" checkversion="A" />');
+		break;
+}
+
+$GLOBALS['DBC']->usePublicVersion($old);
+
+]]></t:eval>
+<p style="color: #009900;">Разослано писем: <t:var name="count" /></p>
+</t:then><t:else /></t:if>
+
+<table cellpadding="0" cellspacing="3" >
+<tr><td width="40%">Рассылка</td><td><select name="type" onchange="selecttype(this.value)">
+	<option value="user">пользователям</option>
+	<option value="childrens">по текущему разделу</option>
+	<option value="sql">по SQL-запросу</option>
+</select></td></tr>
+<tr><td>От кого</td><td><t:input type="text" name="from" value="mail-bot@{SERVER['HTTP_HOST']}" /></td></tr>
+<tr><td>Тема</td><td><input type="text" name="subject" /></td></tr>
+
+<tbody id="user">
+<tr><td>Группа</td><td><select name="group"><option value="">Все</option>
+	<t:rawquery sql="SELECT * FROM {TABLE_GROUP}" xpath="/db/group" template="group" />
+</select></td></tr>
+<tr><td>Количество записей</td><td><t:childrenscount id="{USER_PARENT_ID}" /></td></tr>
+</tbody>
+
+<tbody id="childrens" style="display: none">
+<tr><td>Количество записей</td><td><t:childrenscount /> / <t:childrenscount deep="2" /> / <t:childrenscount deep="3" /></td></tr>
+<tr><td>Поле, содержащее e-mail</td><td><select name="field">
+<option> </option>
+<optgroup label="Основные">
+<option value="title">Заголовок</option>
+<option value="keywords">Ключевые слова</option>
+<option value="description">Описание</option>
+<option value="image">Изображение</option>
+<option value="content">Содержимое</option>
+</optgroup>
+<t:block template="externals" />
+<t:childrens deep="1" template="externals" length="1" page="1" />
+<t:childrens deep="2" template="externals" length="1" page="1" />
+</select></td></tr>
+<tr><td>Глубина вложенности</td><td><select name="deep">
+	<option value="1" selected="selected">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+</select></td></tr>
+</tbody>
+
+<tbody id="sql" style="display: none">
+<tr><td>SQL-запрос</td><td><textarea name="sql" cols="40" rows="10">SELECT * FROM `CmsPage` AS A WHERE 1</textarea></td></tr>
+</tbody>
+
+
+
+<tr><th colspan="2">Сообщение</th></tr>
+<tr><td colspan="2">
+
+<div class="topmain"><div id="ToolBarEditor">
+<a href="javascript:cmsFormat('Cut')" onmouseover="ShowHelp(this)" title="Вырезать" description=""><img src="/cms/img/toolicons/cut.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Copy')" onmouseover="ShowHelp(this)" title="Копировать" description=""><img src="/cms/img/toolicons/copy.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Paste')" onmouseover="ShowHelp(this)" title="Вставить" description=""><img src="/cms/img/toolicons/paste.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('PasteText')" onmouseover="ShowHelp(this)" title="Вставить текст" description=""><img src="/cms/img/toolicons/pastetext.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Undo')" onmouseover="ShowHelp(this)" title="Отменить" description=""><img src="/cms/img/toolicons/undo.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Redo')" onmouseover="ShowHelp(this)" title="Повторить" description=""><img src="/cms/img/toolicons/redo.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Unlink')" onmouseover="ShowHelp(this)" title="Удалить ссылку" description=""><img src="/cms/img/toolicons/unlink.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('CreateLink')" onmouseover="ShowHelp(this)" title="Создать ссылку" description=""><img src="/cms/img/toolicons/createlink.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('InsertImage')" onmouseover="ShowHelp(this)" title="Вставить изображение" description=""><img src="/cms/img/toolicons/insertimage.gif" width="20" height="20" /></a>
+<a href="#" title="Быстрая загрузка изображения" description="" class="flash">
+<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+	codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0"
+	width="20" height="20" id="fu" align="middle">
+<param name="allowScriptAccess" value="sameDomain" />
+<param name="allowFullScreen" value="false" />
+&lt;param name="movie" value="/cms/img/toolicons/fu14.swf?PHPSESSID=<t:var cookie="PHPSESSID" />" />
+<param name="quality" value="high" />
+<param name="bgcolor" value="#ffffff" />
+<param name="wmode" value="transparent" />
+&lt;embed src="/cms/img/toolicons/fu14.swf?PHPSESSID=<t:var cookie="PHPSESSID" />" quality="high" wmode="transparent"
+	bgcolor="#ffffff" width="20" height="20" name="fu" align="middle" allowScriptAccess="sameDomain"
+	allowFullScreen="false" type="application/x-shockwave-flash"
+	pluginspage="http://www.macromedia.com/go/getflashplayer" />
+</object></a>
+<a href="javascript:cmsFormat('InsertTable')" onmouseover="ShowHelp(this)" title="Вставить таблицу" description=""><img src="/cms/img/toolicons/table.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('BlockFormat')" onmouseover="ShowHelp(this)" title="Дополнительное форматирование" description=""><img src="/cms/img/toolicons/blockformat.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('RemoveFormat')" onmouseover="ShowHelp(this)" title="Очистить формат" description=""><img src="/cms/img/toolicons/removeformat.gif" width="20" height="20" /></a>
+<a href="javascript:bMaximize()" onmouseover="ShowHelp(this)" title="Включить полноэкранный режим" description=""><img src="/cms/img/toolicons/maximize.gif" width="20" height="20" /></a>
+<br />
+<a href="javascript:cmsFormat('Html')" onmouseover="ShowHelp(this)" title="Исходный код" description="переключение между режимами исходного кода и форматирования"><img src="/cms/img/toolicons/html.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Bold')" onmouseover="ShowHelp(this)" title="Полужирный" description=""><img src="/cms/img/toolicons/bold.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Italic')" onmouseover="ShowHelp(this)" title="Курсив" description=""><img src="/cms/img/toolicons/italic.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Underline')" onmouseover="ShowHelp(this)" title="Подчеркнутый" description=""><img src="/cms/img/toolicons/underline.gif" width="20" height="20" /></a>
+<!--<a href="javascript:cmsFormat('StrikeThrough')" onmouseover="ShowHelp(this)" title="Перечеркнутый" description=""><img src="/cms/img/toolicons/strikethrough.gif" width="20" height="20" /></a>-->
+<a href="javascript:cmsFormat('SubScript')" onmouseover="ShowHelp(this)" title="Нижний индекс" description=""><img src="/cms/img/toolicons/sub.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('SuperScript')" onmouseover="ShowHelp(this)" title="Верхний индекс" description=""><img src="/cms/img/toolicons/sup.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('JustifyLeft')" onmouseover="ShowHelp(this)" title="Выравнивание по левому краю" description=""><img src="/cms/img/toolicons/justifyleft.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('JustifyCenter')" onmouseover="ShowHelp(this)" title="Выравнивание по центру" description=""><img src="/cms/img/toolicons/justifycenter.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('JustifyRight')" onmouseover="ShowHelp(this)" title="Выравнивание по правому краю" description=""><img src="/cms/img/toolicons/justifyright.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('JustifyFull')" onmouseover="ShowHelp(this)" title="Выравнивание по ширине" description=""><img src="/cms/img/toolicons/justifyfull.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('InsertUnorderedList')" onmouseover="ShowHelp(this)" title="Ненумерованый список" description=""><img src="/cms/img/toolicons/bulletlist.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('InsertOrderedList')" onmouseover="ShowHelp(this)" title="Нумерованый список" description=""><img src="/cms/img/toolicons/numberlist.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Indent')" onmouseover="ShowHelp(this)" title="Увеличить отступ" description=""><img src="/cms/img/toolicons/indent.gif" width="20" height="20" /></a>
+<a href="javascript:cmsFormat('Outdent')" onmouseover="ShowHelp(this)" title="Уменьшить отступ" description=""><img src="/cms/img/toolicons/outdent.gif" width="20" height="20" /></a>
+</div></div>
+
+</td></tr>
+
+<tr><td colspan="2">
+<t:input type="hidden" name="text" />
+<div id="v_content" class="varvalue" contenteditable="true" onclick="window.cmsActiveBlock = this;" onfocus="window.cmsActiveBlock = this;" style="height: 200px;">
+</div>
+</td></tr>
+
+<tr><td>&amp;nbsp;</td><td>
+	<div class="button" style="float: left; width: 100px; text-align: center;"
+		onclick="CmsLoadWndShow(); var f=document.getElementById('FormEmail'); f.elements['text'].value=document.getElementById('v_content').innerHTML; f.submit();">
+		<img src="/cms/img/cms/button-left.jpg" style="float: left;" />
+		<img src="/cms/img/cms/button-right.jpg" style="float: right" />
+		ОК
+	</div>
+</td></tr>
+
+</table>
+
+
+</form>
+
+
+
+</body>
+&lt;/html&gt;
+</t:template>
+
+
+<!--
+	<a href="http://artgk.ru{VARS['link']}">{VARS['title']}</a>
+-->
+
+
+<t:template id="externals1">
+<t:eval><![CDATA[
+
+USER_VARS['external_classes'][] = VARS['external_class'];
+
+]]></t:eval>
+</t:template>
+
+
+
+<t:template id="externals">
+<t:eval><![CDATA[
+
+USER_VARS['external_classes'][] = VARS['external_class'];
+
+if (!empty(VARS['external_class'])) {
+	echo '<optgroup label="Дополнительные ('.VARS['external_class'].')">';
+	foreach ($GLOBALS['EXTERNAL_CLASS'][VARS['external_class']]['property'] as $property)
+		echo '<option value="external.'.$property['name'].'">'.$property['name'].'</option>';
+	echo '</optgroup>';
+}
+
+]]></t:eval>
+</t:template>
+
+
+
+<t:template id="email">
+<t:eval><![CDATA[
+if (!empty($_POST['text'])) {
+	if (get_magic_quotes_gpc()) $_POST['text'] = stripslashes($_POST['text']);
+	$_POST['text'] = str_ireplace('%7B', '{', $_POST['text']);
+	$_POST['text'] = str_ireplace('%7D', '}', $_POST['text']);
+}
+]]></t:eval>
+<t:eval><![CDATA[
+
+$to = @strip_tags($GLOBALS['Vars'][$_POST['field']]);
+
+if (!empty($to)) {
+
+$message = <<<EOL
+{POST['text']}
+EOL;
+
+MailTo($to, $_POST['from'], $_POST['subject'], $message);
+
+USER_VARS['count']++;
+
+}
+
+]]></t:eval>
+</t:template>
+
+
+
+<t:template id="group">
+&lt;option value="<t:var name="id" />"><t:var name="name" />&lt;/option>
+</t:template>
+
+
+</t:templates>

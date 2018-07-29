@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+<t:info>
+	<t:setvar name="email администратора" value="kollaps6@yandex.ru" />
+</t:info>
+
+<t:template id="index">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/jquery.js"> </script>
+<script type="text/javascript" src="/js/script.js"> </script>
+<script type="text/javascript" src="/js/jquery.bxslider.min.js"> </script>
+<link href="/style.css" rel="stylesheet" type="text/css" media="screen"  /> 
+<link href="/js/jquery.bxslider.css" rel="stylesheet" type="text/css" media="screen"  /> 
+<t:if expr="'{VARS['parent_id']}'!='8'">
+<script type="text/javascript" src="/js/slider/coin-slider.min.js"> </script>
+<script type="text/javascript" src="/js/player/drplayer.js"> </script>
+<script type="text/javascript" src="/js/font/cufon-yui.js"> </script>
+<script type="text/javascript" src="/js/font/Avatar_400.font.js"> </script>
+<script type="text/javascript" src="/js/scrollTo/jquery.scrollTo.js"> </script>
+<script type="text/javascript" src="/js/popeye/jquery.popeye-2.1.min.js"> </script>
+<link rel="Stylesheet" href="/css/drplayer.css" type="text/css" />
+<link rel="Stylesheet" href="/css/jquery.popeye.style.css" type="text/css" />
+<link rel="Stylesheet" href="/css/jquery.popeye.css" type="text/css" />
+<script type="text/javascript">
+    Cufon.replace(".mentitl", {
+                    textShadow: '1px 0px #6E2D1B'
+                    });
+	Cufon.replace(".mendesc");				
+</script>
+<t:head />
+&lt;/head>
+<body>
+<t:block template="topbl@root.xml" />
+<t:if expr="'{USER['user.id']}'=='2'">
+	<div class="counts">
+		всего уникальных посетителей: <t:eval>$mq = mysql_query("SELECT COUNT(DISTINCT ip) FROM guests");$r = mysql_fetch_row($mq); echo $r[0]; </t:eval>
+	</div>
+</t:if>
+<div id="treeLineBg">
+<div id="container">
+    <div id="logo">
+        <h1><a href="/" title="пора домой!">Сплав по Сылве</a></h1>
+    </div>
+
+<t:if expr="'{VARS['id']}'=='1'">
+<div id="bodyContainer">
+<div id="imageBtm">
+	<t:block template="headblock@root.xml" />
+	<div id="mainBody">
+		<div id="mainContent">
+				<t:childrens id="6" template="main@root.xml" orderby="create_time" />
+		</div>
+		<t:block template="songsblock@root.xml" />
+	</div>
+</div>
+</div>
+</t:if>
+<t:if expr="'{VARS['id']}'!='1'">
+	 	<t:main />
+</t:if>
+</div>
+</div>
+<t:block template="footerFull@root.xml" />
+</body>
+<script>
+$(document).ready(function() {
+	$('#games').coinslider({ hoverPause: false });
+});
+</script>
+</t:if>
+<t:if expr="'{VARS['parent_id']}'=='8'">
+	<t:if expr="'{GET['ph']}'==''">
+		<script type="text/javascript" src="/js/slider/coin-slider.min.js"> </script>
+		<script type="text/javascript" src="/js/player/drplayer.js"> </script>
+		<script type="text/javascript" src="/js/font/cufon-yui.js"> </script>
+		<script type="text/javascript" src="/js/font/Avatar_400.font.js"> </script>
+		<script type="text/javascript" src="/js/scrollTo/jquery.scrollTo.js"> </script>
+		<script type="text/javascript" src="/js/popeye/jquery.popeye-2.1.min.js"> </script>
+		<link rel="Stylesheet" href="/css/drplayer.css" type="text/css" />
+		<link rel="Stylesheet" href="/css/jquery.popeye.style.css" type="text/css" />
+		<link rel="Stylesheet" href="/css/jquery.popeye.css" type="text/css" />
+		<t:head />
+<script type="text/javascript">
+    Cufon.replace(".mentitl", {
+                    textShadow: '1px 0px #6E2D1B'
+                    });
+	Cufon.replace(".mendesc");				
+</script>
+		&lt;/head>
+		<body>
+		<t:block template="topbl@root.xml" />
+		<div id="treeLineBg">
+			<div id="container">
+				<div id="logo">
+					<h1><a href="/" title="пора домой!">Сплав по Сылве</a></h1>
+				</div>
+				<div id="bodyContainer">
+					<div id="imageBtm">			
+								<t:block template="headblock2@root.xml" />
+						<div id="mainBody">
+							<div id="mainContent">
+								<br /><br />
+								<t:var name="content" editable="yes" />			
+							</div>
+							<t:block template="songsblock@root.xml" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<t:block template="footerFull@root.xml" />		
+		</body>
+	</t:if>
+	<t:if expr="'{GET['ph']}'!=''">
+		<t:block template="photogalery.xml" />
+	</t:if>
+</t:if>
+&lt;/html&gt;
+</t:template>
+
+
+
+
+<t:template id="footerFull">
+<div id="footerFull">
+	<div id="footerContent">
+		<p><a href="/">Главная</a><t:childrens id="1" template="botmenu@root.xml" />
+		 <br />Права принадлежат &amp;copy; 2012 Hoolits corporation </p>
+		<!-- Yandex.Metrika informer -->
+		<div class="yinform">
+		<a href="http://metrika.yandex.ru/stat/?id=23384128&amp;from=informer"
+		target="_blank" rel="nofollow"><img src="//bs.yandex.ru/informer/23384128/3_0_5D310EFF_5D310EFF_1_pageviews"
+		style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:23384128,lang:'ru'});return false}catch(e){}"/></a>
+		</div>
+		<!-- /Yandex.Metrika informer -->
+	</div>
+</div>
+</t:template>
+
+
+
+
+<t:template id="topbl">
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter23384128 = new Ya.Metrika({id:23384128,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/23384128" style="position:absolute; left:-9999px;" alt="" /> </div></noscript>
+<!-- /Yandex.Metrika counter -->
+<div class="planet">
+	<script type="text/javascript" src="http://je.revolvermaps.com/r.js"> </script>
+	<script type="text/javascript">rm_f1st('7','180','true','false','000000','4y6cjqknivb','true','fff600');</script>
+	<noscript><applet codebase="http://re.revolvermaps.com/j" code="core.RE" width="180" height="180" archive="g.jar">
+		<param name="cabbase" value="g.cab" />
+		<param name="r" value="true" />
+		<param name="n" value="false" />
+		<param name="i" value="4y6cjqknivb" />
+		<param name="m" value="7" />
+		<param name="s" value="180" />
+		<param name="c" value="fff600" />
+		<param name="v" value="true" />
+		<param name="b" value="000000" />
+		<param name="rfc" value="true" />
+		</applet>
+	</noscript>
+</div>
+<t:if expr="'{USER['user.id']}'!='2'">
+	<t:block template="checkuser@root.xml" />
+</t:if>	
+</t:template>
+
+
+
+
+
+<t:template id="songsblock">	
+	<div id="sideContent">
+		<span class="pyer">
+			песни, звучавшие в походе
+		</span>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#playlist1, #playlist2").playlist(
+                {
+                    playerurl: "/swf/drplayer.swf"
+                }
+            );
+        });
+    </script>
+   
+<!--    <a href="javascript:void(0);" onClick="$('#playlist').playlist('prev');" class="Prev"> </a>
+    <a href="javascript:void(0);" onClick="$('#playlist').playlist('next');" class="Next"> </a>
+	
+    <a href="javascript:void(0);" onClick="$('#playlist').playlist('pause');" class="Pause"> </a>
+    <a href="javascript:void(0);" class="Play"> </a>-->
+    <div id="playlist1" class="playlist">
+		<t:childrens id="190" template="songs@root.xml" />
+    </div>
+		<span class="pyer">
+			песни, ещё не озвученные
+		</span>
+    <div id="playlist2" class="playlist">
+		<t:childrens id="191" template="songs@root.xml" />
+    </div>
+    <div class="clear"> </div>
+	<t:if expr="'{GET['result']}'=='0'">
+	Вы успешно подписаны ;)<br /><br />
+	&lt;div class="invbl">
+	</t:if>
+	<h2>Напишите здесь свой E-mail, и обо всех новостях на сайте будете получать уведомления на почту!</h2>
+    	<div id="enewsSignup">
+			<t:form>
+				<t:checkform>
+					MailTo('{USER_VARS['email администратора']}', 'info@{SERVER['HTTP_HOST']}', 'подписался',
+					'Название: '.$_POST['sign']."&lt;br/>"
+					);
+					$mq = mysql_query('SELECT image FROM CmsPage WHERE id=401 AND version=0');
+					$row = mysql_fetch_row($mq);
+					$pos = strpos($row[0], trim($_POST['sign']));
+					$txt = "UPDATE CmsPage SET image='".$_POST['sign'].",".$row[0]."' WHERE id=401";
+					if ($pos === false) {
+						mysql_query($txt);
+						$_SESSION['form'] = NULL;
+					} else {
+						return -6;
+					}
+				</t:checkform>
+				<t:if expr="'{GET['result']}'=='-6'">
+					<div class="alert">Такой E-mail уже подписан</div>
+				</t:if>
+				ваша почта:
+				<div class="n2">неверный формат E-mail!</div>
+				<span id="emailEntry"><t:input name="sign" type="text" /> </span>            
+				<input type="button" id="emailSubmit" value="подписаться" />
+			</t:form>
+        </div>
+	<t:if expr="'{GET['result']}'=='0'">
+	&lt;/div>
+	</t:if>
+	</div>
+</t:template>
+
+
+
+<t:template id="headblock">
+<div id="header">
+
+     <div id="homeFlash">
+          <div id="flashArea">
+				<div id="gamesHolder">
+					<div id="games">
+					<div class="descslid"><t:block id="8" template="cont@root.xml" /> </div>
+						<t:select sql="SELECT A.image FROM CmsPage A JOIN CmsPage B ON A.parent_id=B.id WHERE B.parent_id=8 AND A.version=0 AND B.version=0" template="slider@root.xml" length="6" orderby="?" page="1" />			
+					</div>
+				</div>
+          </div>
+     </div>
+
+      <div id="mainNav">
+		&lt;a href="/" id="porM"<t:if expr="'{VARS['id']}'=='1'"> class="current"</t:if>><span class="mentitl">Главная</span><br />
+			<span class="mendesc">путь домой</span>&lt;/a>
+	  		<t:childrens id="1" template="menu@root.xml" />
+
+      </div>
+</div>
+</t:template>
+
+
+
+<t:template id="headblock2">
+<div id="header">     
+	<div style="float:left">
+			<t:block template="hronologue.xml" />
+	</div>
+      <div id="mainNav" class="hronmenu">
+		&lt;a href="/" id="porM"><span class="mentitl">Главная</span><br />
+			<span class="mendesc">путь домой</span>&lt;/a>
+	  		<t:childrens id="1" template="menu@root.xml" />
+&lt;a href="?ph=yes" id="porM"><span class="mentitl">Фотографии</span><br />
+			<span class="mendesc">посмотреть крупным планом</span>&lt;/a>
+      </div>
+</div>
+</t:template>
+
+<t:template id="botmenu">	
+ | <t:a><t:var name="title" editable="yes" /></t:a>
+</t:template>
+
+
+
+
+<t:template id="songs">	
+        &lt;div href="/files/pl/<t:var name="description" />.mp3" class="item">
+            <div>
+<!--                <div class="fr duration">02:06</div>-->
+                <div class="btn play"> </div>
+                <div class="title"><b><t:var name="title" editable="yes" /></b> - <t:var name="content" editable="yes" /></div>
+            </div>
+            <div class="player inactive"> </div>
+        &lt;/div>
+        
+        <div class="clear"> </div>
+</t:template>
+
+
+
+<t:template id="cont">
+	<t:var name="content" editable="yes" />
+</t:template>
+
+
+
+<t:template id="desc">
+	<t:var name="description" editable="yes" />
+</t:template>
+
+
+<t:template id="slider">
+	<t:var name="image" img="600x*" />
+</t:template>
+
+<t:template id="main">
+	<h2><t:div class="ic{N}"><span class="botbord"><t:var name="title" editable="yes" /> </span></t:div></h2>
+		<div id="mainText">
+<t:var name="description" editable="yes" />
+<t:first>
+	<div class="obj">
+		<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" name="vik" width="250" height="67" align="middle" id="vik">
+			<param name="allowScriptAccess" value="sameDomain" />
+			<param name="allowFullScreen" value="false" />
+			<param name="movie" value="/swf/skolsenje1.swf" /><param name="quality" value="high" /><param name="wmode" value="transparent"/>	<embed src="/swf/skolsenje1.swf" quality="high" wmode="transparent" width="250" height="67" name="vik" align="middle" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+			</object>
+	</div>
+<t:var name="content" editable="yes" />
+</t:first>
+		</div>
+</t:template>
+
+
+<t:template id="menu">
+<t:eval>USER_VARS['link'] = str_replace('/', '\/', '{VARS['link']}');</t:eval>
+	<t:if expr="'{VARS['id']}'=='8'">
+<div class="pmenu">
+	&lt;a href="<t:var name="link" />" id="por<t:eval>echo {N};</t:eval>"<t:if expr="preg_match('/^{USER_VARS['link']}/', $_SERVER['REQUEST_URI'])"> class="current"</t:if>><span class="mentitl"><t:var name="title" editable="yes" /></span><br />
+	<span class="mendesc"><t:var name="description" editable="yes" /> </span>
+	&lt;/a><div class="submen"><t:childrens template="submen@root.xml" /></div> 
+	</div></t:if>
+	<t:if expr="'{VARS['id']}'!='8'">
+<div class="pmenu">
+	&lt;a href="<t:var name="link" />" id="por<t:eval>echo {N};</t:eval>"<t:if expr="preg_match('/^{USER_VARS['link']}/', $_SERVER['REQUEST_URI'])"> class="current"</t:if>><span class="mentitl"><t:var name="title" editable="yes" /></span><br />
+	<span class="mendesc"><t:var name="description" editable="yes" /> </span>
+	&lt;/a>
+	</div></t:if>
+</t:template>
+
+
+<t:template id="submen">
+<t:a><t:var name="title" editable="yes" /> <span class="desc fr"><t:var name="description" editable="yes" /></span></t:a>
+</t:template>
+
+
+<t:template id="checkuser">
+<t:eval>
+$ip=$_SERVER['REMOTE_ADDR'];
+$date=date("Y-m-d H");
+//echo $ip." - ".$date;
+	$txt = 'INSERT INTO guests VALUES (\''.$ip.'\', \''.$date.'\', \'{VARS['title']}\', \'{VARS['id']}\', \'\')';
+//echo ' &gt; '.$txt;
+mysql_query($txt);
+</t:eval>
+</t:template>
+</t:templates>

@@ -1,0 +1,45 @@
+<form><table style="margin: 20px;">
+<tr><td valign="top">Формат</td><td><select name="tag" size="11">
+	<option value="span" title="span" selected="selected">Обычный</option>
+	<option value="h1" title="h1">Заголовок 1</option>
+	<option value="h2" title="h2">Заголовок 2</option>
+	<option value="h3" title="h3">Заголовок 3</option>
+	<option value="h4" title="h4">Заголовок 4</option>
+	<option value="h5" title="h5">Заголовок 5</option>
+	<option value="h6" title="h6">Заголовок 6</option>
+	<option value="small" title="small">Мелкий шрифт</option>
+	<option value="big" title="big">Крупный шрифт</option>
+	<option value="pre" title="pre">Форматированный</option>
+	<option value="tt" title="tt">Моноширинный</option>
+</select></td></tr>
+
+<tr><td valign="top"><b>Ж</b> | <i>К</i> | <u>П</u></td><td>
+	<input type="checkbox" name="bold" />
+	<input type="checkbox" name="italic" />
+	<input type="checkbox" name="underline" /></td></tr>
+<tr><td>Шрифт</td><td><select name="fontFamily">
+	<option value=""></option>
+	<option value="Arial">Arial</option>
+	<option value="Courier New">Courier New</option>
+	<option value="Tahoma">Tahoma</option>
+	<option value="Times New Roman">Times New Roman</option>
+	<option value="Verdana">Verdana</option>
+</select></td></tr>
+<tr><td>Размер</td><td><select name="fontSize">
+	<option value=""></option>
+	<option value="8px">8px</option>
+	<option value="10px">10px</option>
+	<option value="12px">12px</option>
+	<option value="14px">14px</option>
+	<option value="16px">16px</option>
+	<option value="18px">18px</option>
+	<option value="24px">24px</option>
+	<option value="36px">36px</option>
+</select></td></tr>
+<tr><td valign="top">Цвет</td><td>
+	<input type="text" name="color" onfocus="cmsColorPickerShow(this)" onblur="cmsColorPickerHide()" /></td></tr>
+
+<tr><td colspan="2" align="right">
+	<button onclick="cmsBlockFormat(this.form); return false;">&nbsp;&nbsp;&nbsp;OK&nbsp;&nbsp;&nbsp;</button>
+	<button onclick="modalDlg.close(); return false;">Отмена</button></td></tr>
+</table></form>

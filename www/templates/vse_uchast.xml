@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+
+<t:template id="index">	
+<div class="vecher"><img src="/img/plam4.gif" /> </div>
+<div id="verh">
+<div id="bodyContainer">
+	<t:block template="headblock@root.xml" />
+	<div id="mainBody">
+		<div id="mainContent">
+			<h2><div class="ic_sp"><span class="botbord"><t:var name="title" editable="yes" /></span></div></h2>
+			<t:var name="content" editable="yes" /><br />
+			За всё время существования Сплава в нём приняли участие <t:childrenscount /> человек.
+
+			<div class="uch_listing">
+				<t:childrens template="minilist" />
+			</div>
+		</div>
+		<t:block template="songsblock@root.xml" />
+	</div>
+</div>
+		<t:childrens template="list" />
+</div>
+</t:template>
+
+
+
+<t:template id="minilist">
+<t:eval>//VARS['description'] </t:eval>
+	<t:a href="#bc{VARS['id']}" class="{VARS['description']}"><t:var name="title" editable="yes" /></t:a> 
+</t:template>
+
+
+
+<t:template id="list">
+<t:div id="bc{VARS['id']}" class="bodyContainer">
+<t:last>&lt;div id="imageBtm"></t:last>
+<div id="mainBody">
+	<div id="mainContent2">
+    <div class="example">
+	    <div class="ppy">
+		<t:if expr="'{USER['user.id']}'!='2'">
+            <ul class="ppy-imglist">
+				<t:childrens template="fotos" />
+            </ul>
+		</t:if>
+		<div class="ppy-outer">
+			<div class="ppy-stage">
+				<div class="ppy-nav">
+					<a class="ppy-prev" title="предыдущее фото">предыдущее фото</a>
+					<a class="ppy-switch-enlarge" title="увеличить">увеличить</a>
+					<a class="ppy-switch-compact" title="закрыть">закрыть</a>
+					<a class="ppy-next" title="следующее фото">следующее фото</a>
+				</div>
+			</div>
+		</div>
+		<div class="ppy-caption">
+			<div class="ppy-counter">
+				Фото <strong class="ppy-current"> </strong> из <strong class="ppy-total"> </strong> 
+			</div>
+			<span class="ppy-text"> </span>
+		</div>
+	</div>
+        <h2><t:var name="title" /> </h2>        
+			Годы участия: <t:var name="image" editable="yes" /><br />
+			<t:var name="content" editable="yes" />
+			<a href="#verh" class="naverh">всплыть наверх</a>
+		</div>
+		<t:if expr="'{USER['user.id']}'=='2'">
+		<t:childrens template="fotos_adm" />
+		</t:if>
+	</div>
+</div>
+<t:last>&lt;/div><script type="text/javascript">
+    <!--//<![CDATA[
+    
+    $(document).ready(function () {
+        var options1 = {
+        }
+        var options2 = {
+            caption:    false,
+            navigation: 'permanent',
+            direction:  'left'
+        }
+        var options3 = {
+            caption:    'permanent',
+            opacity:    1
+        }
+    
+        $('.ppy').popeye(options1);
+    });
+    
+    //]]>-->
+</script></t:last>
+</t:div>
+</t:template>
+
+
+
+
+<t:template id="fotos_adm">
+<div>
+		<span style="float:left"><t:var name="image" img="*x100" editable="yes" /> </span>
+                        <strong><t:var name="title" editable="yes" /></strong><br />
+						<t:var name="description" editable="yes" />
+</div>
+</t:template>
+
+
+<t:template id="fotos">
+	<li>
+		&lt;a href="/cms/fb/vi?h=*&amp;w=800&amp;url=<t:eval>echo preg_replace('/.*src=\"([^\"]+)\".*/', '$1', '{VARS['image']}');</t:eval>">
+			<t:var name="image" img="*x100" editable="yes" />
+		&lt;/a>
+       <span class="ppy-extcaption">
+                        <strong><t:if expr="'{VARS['title']}'!='Новая запись' AND '{VARS['title']}'!='Новая страница'"><t:var name="title" editable="yes" /></t:if> </strong><br />
+						<t:var name="description" editable="yes" />
+       </span>
+	</li>
+</t:template>
+
+</t:templates>
+<!--Первое упоминание о хулитах датируется 2007 годом, много позже, нежели стартовала традиция проведения сплавов. Авторство
+упоминания принадлежит <a href=/vse_uchastniki#bc72>Валентине Шабловой</a>, которая в том году присутствовала на сплаве впервые и, к сожалению, в последний раз. Произошло это на вечерней стоянке, когда на тот момент ещё обычные речные туристы традиционно ужинали с разведённым спиртом и душевно беседовали между собой. Валентина с загадочной улыбкой задала вопрос  <a href=/vse_uchastniki#bc58>Евгению Суханову</a>, на тему, по какой причине он перешёл на сегодняшний день с их катамарана на другой. В то время, кстати, мы частенько менялись своими местами на катамаранах. Евгений стал подробно и пространно рассказывать о множестве причин, побудивших его сделать это, и когда минут через 5 его объяснение подошло к концу, Валентина неожиданно сказала, всё так же очаровательно улыбаясь: "Ну дак хулиты!" Что это значит, Евгений тогда не понял. Вернее, понял, что его длинное объяснение, скорее всего, не нашло должного осознания. Лишь на следующий день ему пришла в голову мысль, что в лесах водится множество различных сказочных существ, таких как гномы, эльфы, тролли, гоблины. Скорее всего, там должен существовать ещё один доселе не открытый вид - хулиты, которым свойственно путешествовать по реке без определённой цели, невзирая на капризы непогоды и другие неудобства. С тех пор все наши туристы гордо именуют себя хулитами, которым по боку какие-либо неудобства, когда речь идёт о романтике совместного путешествия по тихой лесной реке.
+Однажды, проплывая мимо деревни, мы несколько раз пытались объяснить человеку, который вышел на пригорок полюбоваться на реку, что мы хулиты. Он долго переспрашивал, что мы имеем в виду. И судя по всему, остался недоволен. После этого было предложено открыто не высказывать свой статус, ведь другие сказочные существа тоже никогда себя никому не навязывают без серьёзных причин. В последнем походе мы плыли на двух катамаранах, впервые у нас хорошо работала связь между кораблями. Первый катамаран находился на удалении, с него поступил вызов от Светланы Деменевой, которая сообщила, что проплывая мимо каких-то других туристов, они разговорились, и уже удаляясь от них, нашим удалось выпросить палку для флага. И нам следует, когда мы будем их проплывать, попросить эту палку с паролем "хулиты". Через некоторое время мы и вправду проезжали мимо них, там было где-то 6 брутальных мужиков, и мы благоразумно решили попросить палку, не прибегая к паролю, что у нас с успехом и получилось. 
+-->

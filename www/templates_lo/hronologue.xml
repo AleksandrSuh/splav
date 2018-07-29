@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<t:templates xmlns:t="/templates/ns" xmlns="http://www.w3.org/1999/xhtml">
+<t:template id="index">
+<div class="relat">
+<h2><div class="ic_art"><span class="botbord"><t:var name="title" /> </span></div></h2>
+	<t:eval>
+	<![CDATA[
+          $src = 'templates/tmap'.VARS['id'].'.xml';
+		  if (file_exists($src)) USER_VARS['fe'] = 1; else USER_VARS['fe'] = 0;
+     ]]>
+	 </t:eval>
+	 <t:if expr="{USER_VARS['fe']}==1">
+<div class="hrondesc"><t:var name="description" editable="yes" /> </div>
+пройденный маршрут: 
+<t:block template="tmap{VARS['id']}.xml" />
+	</t:if>
+</div>
+</t:template>
+</t:templates>
